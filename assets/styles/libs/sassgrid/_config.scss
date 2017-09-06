@@ -1,0 +1,41 @@
+/* The min widths of the devices. */
+$xsDeviceMinWidth: 0;
+$smDeviceMinWidth: 768;
+$mdDeviceMinWidth: 992;
+$lgDeviceMinWidth: 1200;
+
+/* The side padding value for a column.
+   if set to 0, no padding property is set.
+*/
+$columnPadding: 15px;
+
+/* The max number of columns on a row.
+   NB: The size grows with the number of columns!
+*/
+$numberOfColumns: 12;
+
+/* Map with the symbols that will be added
+   when generating the class name (col-xs-*)
+   as a key and the corresponding width below
+   which this class overrides the column's width
+   (this is value is set to the min-width
+   in the media query).
+   NB: The size grows with the number of elements!
+*/
+$breakpoints: (
+        xs: $xsDeviceMinWidth,
+        sm: $smDeviceMinWidth,
+        md: $mdDeviceMinWidth,
+        lg: $lgDeviceMinWidth
+);
+
+/* Map with the min device's width
+   and the corresponding max-width
+   of the container class element.
+*/
+$containerMaxWidths: (
+        $xsDeviceMinWidth: none,
+        $smDeviceMinWidth: 750px,
+        $mdDeviceMinWidth: 970px,
+        $lgDeviceMinWidth: 1170px
+);

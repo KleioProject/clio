@@ -1,0 +1,35 @@
+.search-wrapper {
+    padding: 20px;
+    background-color: #0F9CF5;
+    input {
+        // width: 200px;
+        height: 40px;
+        padding: 5px 10px;
+        color: #5D5959;
+        font-size: 20px;
+        border: none;
+    }
+    .results {
+        position: absolute;
+        top: 40px;
+        left: 0;
+       // height: 160px;
+        min-height: 160px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+       // background-color: lightblue;
+        option {
+            height: 40px;
+            padding: 10px 10px 0;
+            font-size: 20px;
+            cursor: pointer;
+            &:hover, &:checked {
+                color: lightcoral;
+                background-color: lightgray;
+            }
+        }
+    }
+    .autocomplete-input-container {
+        position: relative;
+    }
+}

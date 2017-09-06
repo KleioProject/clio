@@ -1,0 +1,102 @@
+@import "./config";
+@import "./functions";
+
+/***************************************************/
+/**************** CONTAINING CLASSES ***************/
+/***************************************************/
+div {
+  box-sizing: border-box !important;
+}
+
+.clearfix {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+
+.container {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  @each $device, $maxWidth in $containerMaxWidths {
+    @media all and (min-width: #{$device}px) {
+      max-width: $maxWidth;
+    }
+  }
+}
+
+.row {
+  @extend .clearfix;
+  display: block;
+}
+
+/***************************************************/
+/***************** COLUMNS CLASSES *****************/
+/***************************************************/
+[class*="col-"] {
+  position: relative;
+  float: left;
+  @if $columnPadding > 0 {
+    padding: 0 $columnPadding;
+  }
+  &.no-pad-left {
+    padding-left: 0 !important;
+  }
+  &.no-pad-right {
+    padding-right: 0 !important;
+  }
+}
+
+@mixin generateGrid($breakpointSymbol) {
+  @for $i from 1 through $numberOfColumns {
+
+    $width: 100%*($i/$numberOfColumns);
+
+    .col-#{$breakpointSymbol}-#{$i} {
+      width: $width;
+    }
+
+  }
+}
+
+/**************** The basic classes *****************/
+@each $key, $val in reverse($breakpoints) {
+  @include generateGrid($key);
+}
+
+/************ The responsive behaviour **************/
+@each $key, $val in $breakpoints {
+  @media all and (min-width: #{$val}px) {
+    @include generateGrid($key);
+  }
+}
+
+
+/***************************************************/
+/***************** OFFSETS CLASSES *****************/
+/***************************************************/
+@mixin generateOffsets($breakpointSymbol) {
+  @for $i from 0 through $numberOfColumns {
+
+    $marginLeft: 100%*($i/$numberOfColumns);
+
+    .offset-#{$breakpointSymbol}-#{$i} {
+      margin-left: $marginLeft;
+    }
+
+  }
+}
+
+/**************** The basic offsets classes *****************/
+@each $key, $val in reverse($breakpoints) {
+  @include generateOffsets($key);
+}
+
+/************ The responsive offsets behaviour **************/
+@each $key, $val in $breakpoints {
+  @media all and (min-width: #{$val}px) {
+    @include generateOffsets($key);
+  }
+}

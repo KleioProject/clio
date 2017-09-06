@@ -1,0 +1,18 @@
+//@import '../node_modules/normalize.css/normalize.css';
+@import '../node_modules/animate.css/animate.css';
+//@import './libs/bootstrap.css'; //only grid and responsive-utils
+@import './libs/sassgrid/grid.scss';
+
+@import './partials/fonts.scss';
+@import './partials/basic.scss';
+@import './partials/vue-specific.scss';
+@import './partials/navigation.scss';
+@import './partials/inputs.scss';
+
+@import '../src/components/playground/playground.scss';
+@import '../src/routes/home/components/Home/home.scss';
+@import '../src/components/Navbar/navbar.scss';
+@import '../src/components/Page404/page404.scss';
+@import '../src/routes/animations/components/animations.scss';
+@import '../src/routes/search/search.scss';
+@import '../src/routes/editor/editor.scss';

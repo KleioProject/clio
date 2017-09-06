@@ -1,0 +1,12 @@
+input,
+textarea,
+select {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+select,
+option {
+    -webkit-appearance: none;
+}
