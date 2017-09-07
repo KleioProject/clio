@@ -13,14 +13,29 @@ defmodule ClioWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql do
+    # plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    # plug Guardian.Plug.LoadResource
+    # plug RakiaWeb.Context
+  end
+
   scope "/", ClioWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ClioWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through [:api, :graphql]
+
+    forward "/", Absinthe.Plug, schema: ClioWeb.Schema
+  end
+
+  if Mix.env == :dev do
+    scope "/graphiql" do
+      pipe_through :api
+
+      forward "/", Absinthe.Plug.GraphiQL, schema: ClioWeb.Schema
+    end
+  end
 end
