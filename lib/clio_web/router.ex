@@ -19,23 +19,24 @@ defmodule ClioWeb.Router do
     # plug RakiaWeb.Context
   end
 
-  scope "/", ClioWeb do
-    pipe_through :browser # Use the default browser stack
+  # scope "/", ClioWeb do
+  #   pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-  end
+  #   get "/", PageController, :index
+  # end
 
-  scope "/api" do
+  scope "/gql" do
     pipe_through [:api, :graphql]
 
     forward "/", Absinthe.Plug, schema: ClioWeb.Schema
   end
 
-  if Mix.env == :dev do
-    scope "/graphiql" do
-      pipe_through :api
+  scope "/graphiql" do
+    pipe_through :api
 
-      forward "/", Absinthe.Plug.GraphiQL, schema: ClioWeb.Schema
-    end
+    forward "/", Absinthe.Plug.GraphiQL,
+      schema: ClioWeb.Schema,
+      # interface: :simple,
+      context: %{pubsub: RakiaWeb.Endpoint}
   end
 end

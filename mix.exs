@@ -43,9 +43,9 @@ defmodule Clio.Mixfile do
       {:cowboy, "~> 1.0"},
       {:absinthe, "~> 1.3"},
       {:absinthe_plug, "~> 1.3"},
-      {:absinthe_ecto, "~> 0.1.2"},
-      {:credo, "~> 0.5", only: [:dev, :test]},
-      {:dogma, "~> 0.1", only: [:dev]}
+      {:absinthe_ecto, "~> 0.1.0"},
+      {:exfmt, "~> 0.4.0"},
+      {:credo, "~> 0.5", only: [:dev, :test]}
     ]
   end
 
