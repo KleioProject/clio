@@ -5,6 +5,7 @@ function createApolloClient( store ) {
         uri: 'http://localhost:4000/gql'
     } );
 
+    // TODO: handle errors here (showm messages etc)
     networkInterface.useAfter( [ {
         applyAfterware( { response }, next ) {
             console.log( 'Apollo useAfter' );

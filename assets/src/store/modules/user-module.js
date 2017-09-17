@@ -68,6 +68,16 @@ export default {
                     resolve();
                 } ).catch( ( error ) => {
                     console.dir( error );
+                    // TODO: centralize the apollo errors in interceptor
+                    commit( 'setMessageBody', error.message );
+                    commit( 'setShowMessage', true );
+                    if ( isBrowser ) {
+                        setTimeout( () => {
+                            commit( 'setMessageBody', '' );
+                            commit( 'setShowMessage', false );
+                        }, 5000 );
+                    }
+
                     reject();
                 } );
             } )
