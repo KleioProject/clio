@@ -45,7 +45,9 @@ defmodule Clio.Mixfile do
       {:absinthe_plug, "~> 1.3"},
       {:absinthe_ecto, "~> 0.1.0"},
       {:exfmt, "~> 0.4.0"},
-      {:credo, "~> 0.5", only: [:dev, :test]}
+      {:comeonin, "~> 4.0"},
+      {:argon2_elixir, "~> 1.2"},
+      {:inflex, "~> 1.8"},
     ]
   end
 

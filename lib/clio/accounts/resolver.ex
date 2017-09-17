@@ -1,4 +1,4 @@
-defmodule ClioWeb.AccountsResolver do
+defmodule Clio.Accounts.Resolver do
   alias Clio.Accounts
 
   def user(_root, %{id: id}, _info) do

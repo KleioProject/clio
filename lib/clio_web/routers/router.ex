@@ -13,20 +13,19 @@ defmodule ClioWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :graphql do
-    # plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    # plug Guardian.Plug.LoadResource
-    # plug RakiaWeb.Context
+  pipeline :token do
+    plug :fetch_cookies
+    plug ClioWeb.Context
   end
 
-  # scope "/", ClioWeb do
-  #   pipe_through :browser # Use the default browser stack
+  scope "/account", ClioWeb do
+    pipe_through [:api, :token]
 
-  #   get "/", PageController, :index
-  # end
+    forward "/", AccountRouter
+  end
 
   scope "/gql" do
-    pipe_through [:api, :graphql]
+    pipe_through [:api, :token]
 
     forward "/", Absinthe.Plug, schema: ClioWeb.Schema
   end
@@ -36,7 +35,6 @@ defmodule ClioWeb.Router do
 
     forward "/", Absinthe.Plug.GraphiQL,
       schema: ClioWeb.Schema,
-      # interface: :simple,
-      context: %{pubsub: RakiaWeb.Endpoint}
+      context: %{pubsub: ClioWeb.Endpoint}
   end
 end

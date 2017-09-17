@@ -12,6 +12,7 @@
 alias Clio.Repo
 alias Clio.Administrative.{Faculty}
 alias Clio.Accounts.{User}
+alias Comeonin.Argon2
 
 faculties =
   [
@@ -44,7 +45,7 @@ users =
           id_number: "23646",
           first_name: "Admin",
           last_name: "Adminov",
-          password_hash: "adminadmin",
+          password_hash:  Argon2.hashpwsalt("adminadmin"),
           faculty_id: Enum.fetch!(faculties, 0).id},
 
     %User{contact_email: "supervisor@supervisor.bg",
@@ -54,7 +55,7 @@ users =
           id_number: "7873784167",
           first_name: "Supervisor",
           last_name: "Supervisor",
-          password_hash: "supervisor",
+          password_hash: Argon2.hashpwsalt("supervisor"),
           faculty_id: Enum.fetch!(faculties, 1).id},
 
     %User{contact_email: "user@user.bg",
@@ -64,7 +65,7 @@ users =
           id_number: "8737",
           first_name: "User",
           last_name: "Userov",
-          password_hash: "useruser",
+          password_hash: Argon2.hashpwsalt("useruser"),
           faculty_id: Enum.fetch!(faculties, 2).id},
   ]
 

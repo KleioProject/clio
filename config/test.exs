@@ -17,3 +17,8 @@ config :clio, Clio.Repo,
   database: "clio_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Make hashing faster when testing
+config :argon2_elixir,
+  t_cost: 2,
+  m_cost: 12

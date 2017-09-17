@@ -3,21 +3,21 @@ defmodule ClioWeb.Schema do
   import_types ClioWeb.Schema.Types
   import_types Absinthe.Type.Custom
 
-  alias ClioWeb.{AdministrativeResolver,
-                 AccountsResolver}
+  alias Clio.{Accounts,
+              Administrative}
 
   query do
     field :faculties, list_of(:faculty) do
-      resolve &AdministrativeResolver.faculties/3
+      resolve &Administrative.Resolver.faculties/3
     end
 
     field :user, :user do
       arg :id, non_null(:id)
-      resolve &AccountsResolver.user/3
+      resolve &Accounts.Resolver.user/3
     end
 
     field :users, list_of(:user) do
-      resolve &AccountsResolver.users/3
+      resolve &Accounts.Resolver.users/3
     end
   end
 
@@ -26,7 +26,7 @@ defmodule ClioWeb.Schema do
       arg :id, non_null(:id)
       arg :is_admin, :boolean
       arg :is_supervisor, :boolean
-      resolve &AccountsResolver.update_user/3
+      resolve &Accounts.Resolver.update_user/3
     end
   end
 end
