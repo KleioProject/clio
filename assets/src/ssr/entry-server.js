@@ -1,36 +1,41 @@
 import { createApp } from './app'
 
 export default ( context ) => {
-    return new Promise(( resolve, reject ) => {
-        const { app, router, store } = createApp()
+    return new Promise( ( resolve, reject ) => {
+        const { app, router, store, client, axios } = createApp()
+
+        // Set the token to the router object 
+        // in order to be able to authenticate
+        // the user on guarded routes at server
+        // side:
+        router.token = context.token || null;
+        // Set token on the store's state in
+        // order to get it on the client side:
+        store.state.token = router.token;
+        store.state.userModule.user = context.user;
 
         router.push( context.url );
 
         router.onReady(
             () => {
+                console.log( `entry-server.js router.onReady: ${ context.url }` );
                 const matchedComponents = router.getMatchedComponents();
                 if ( !matchedComponents.length ) {
                     return reject( { code: 404 } );
                 }
-                // call `asyncData()` on all matched route components
                 Promise.all( matchedComponents.map(
-                    ( Component ) => {
-                        if ( Component.asyncData ) {
-                            return Component.asyncData( {
-                                store,
-                                route: router.currentRoute
-                            } );
+                    ( component ) => {
+                        if ( component.asyncAction ) {
+                            const payload = component.asyncAction.payload;
+                            if ( component.asyncAction.router ) {
+                                payload.router = router;
+                            }
+                            return store.dispatch( component.asyncAction.action, payload );
                         }
                     } )
-                ).then(() => {
-                    // After all preFetch hooks are resolved, our store is now
-                    // filled with the state needed to render the app.
-                    // When we attach the state to the context, and the `template` option
-                    // is used for the renderer, the state will automatically be
-                    // serialized and injected into the HTML as `window.__INITIAL_STATE__`.
+                ).then( () => {
                     context.state = store.state;
                     resolve( app );
-
                 } ).catch( reject );
             },
             reject

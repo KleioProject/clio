@@ -8,17 +8,17 @@ const CompressionPlugin = require( "compression-webpack-plugin" );
 const commonConfig = require( './webpack.common.js' );
 const buildPath = require( './../build.path' );
 
-const ENV = process.env.NODE_ENV = 'production';
+
 /**
  * In order to set API url for development run in the console:
  * npm run develop --apiurl=http://someipaddress:port
  * Example: npm run production --apiurl=http://localhost:4000/ --host=http://localhost --port=8081
  */
-const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/';
+const ENV = 'production';
+process.env.NODE_ENV = ENV;
+const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/api/';
 const HOST = process.env.npm_config_host || 'http://localhost';
 const PORT = process.env.npm_config_port || '8080';
-
-console.log( ENV, API_URL, HOST, PORT );
 
 /**
  * Configuration object with properties set for production mode.
@@ -69,7 +69,7 @@ const productionSpecificConfig = {
             }
         )
     ]
-}
+};
 
 /**
  * Merge the common config with the production specific config.

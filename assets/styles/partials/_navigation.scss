@@ -8,10 +8,11 @@ li {
         }
     }
     a {
+        color: white;
         text-transform: uppercase;
         text-decoration: none;
         &:hover {
-            color: orange;
+            color: #5A5A7E;
             text-decoration: none;
         }
     }
@@ -19,7 +20,7 @@ li {
 
 .link-active {
     a {
-        color: red;
+        color: #010125;
         text-decoration: none;
     }
 }

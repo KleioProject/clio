@@ -1,18 +1,25 @@
-//@import '../node_modules/normalize.css/normalize.css';
+// Libraries:
 @import '../node_modules/animate.css/animate.css';
-//@import './libs/bootstrap.css'; //only grid and responsive-utils
 @import './libs/sassgrid/grid.scss';
-
+// Partials:
 @import './partials/fonts.scss';
 @import './partials/basic.scss';
 @import './partials/vue-specific.scss';
 @import './partials/navigation.scss';
 @import './partials/inputs.scss';
-
-@import '../src/components/playground/playground.scss';
-@import '../src/routes/home/components/Home/home.scss';
-@import '../src/components/Navbar/navbar.scss';
-@import '../src/components/Page404/page404.scss';
-@import '../src/routes/animations/components/animations.scss';
+@import './partials/animations.scss';
+// Common components:
+@import '../src/common/components/Autocomplete/autocomplete.scss';
+@import '../src/common/components/CKEditor/ckeditor.scss';
+@import '../src/common/components/Navbar/navbar.scss';
+// Route components:
+@import '../src/routes/404/page404.scss';
+@import '../src/routes/contacts/contacts.scss';
+@import '../src/routes/guide/guide.scss';
+@import '../src/routes/home/home.scss';
+@import '../src/routes/login/login.scss';
+@import '../src/routes/profile/profile.scss';
+@import '../src/routes/project/project.scss';
+@import '../src/routes/register/register.scss';
+@import '../src/routes/rules/rules.scss';
 @import '../src/routes/search/search.scss';
-@import '../src/routes/editor/editor.scss';

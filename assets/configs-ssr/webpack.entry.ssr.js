@@ -1,3 +1,7 @@
+const fs = require( 'fs' );
+const gracefulFs = require( 'graceful-fs' );
+gracefulFs.gracefulify( fs );
+
 const webpackMerge = require( 'webpack-merge' );
 
 const hash = ( ( +new Date ) + Math.random() * 100 ).toString( 32 ).slice( -16 );
@@ -12,4 +16,4 @@ const mergedServerConfig = webpackMerge( serverConfig, baseConfig );
 module.exports = [
     mergedClientConfig,
     mergedServerConfig
-]
+];

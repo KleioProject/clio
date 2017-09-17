@@ -56,6 +56,16 @@ module.exports = {
                     fallback: 'style-loader',
                     use: [ 'css-loader?sourceMap', 'postcss-loader', 'sass-loader' ]
                 } )
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'gql-loader',
+                    options: {
+                        baseDir: `${ root }/src/graphql`
+                    }
+                }
             }
         ],
     },
@@ -67,8 +77,8 @@ module.exports = {
                 chunksSortMode: 'dependency'
             }
         ),
-        new CopyWebpackPlugin([
-            { from: `${ root }/node_modules/ckeditor`, to: 'public/ckeditor'}
-        ])
+        new CopyWebpackPlugin( [
+            { from: `${ root }/node_modules/ckeditor`, to: 'public/ckeditor' }
+        ] )
     ]
-}
+};

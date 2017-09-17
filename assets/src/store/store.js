@@ -5,8 +5,8 @@ import state from './state';
 import getters from './getters';
 import mutations from './mutations';
 import actions from './actions';
-import searchModule from './modules/search-module';
 import userModule from './modules/user-module';
+import messagesModule from './modules/messages-module';
 
 Vue.use( Vuex );
 
@@ -17,8 +17,8 @@ function createStore() {
         mutations,
         actions,
         modules: {
-            searchModule,
-            userModule
+            userModule,
+            messagesModule
         }
     } );
 };

@@ -15,12 +15,12 @@ const root = require( './../root.path' );
  * Puting '.html' and '.scss' in resolve -> extensions array breaks the
  * develop and production builds.
  */
-module.exports = (hash) => {
-    return {
+module.exports = ( hash ) => {
+    const baseConfig = {
         output: {
             path: buildPath,
             publicPath: '/',
-            filename: `public/${hash}.[name].js`
+            filename: `public/${ hash }.[name].js`
         },
         resolve: {
             extensions: [ '.js', '.vue' ],
@@ -51,12 +51,12 @@ module.exports = (hash) => {
                 {
                     test: /\.(woff|woff2|ttf|eot)(\?\S*)?$/,
                     exclude: /node_modules/,
-                    loader: `file-loader?name=public/fonts/${hash}.[name].[ext]`,
+                    loader: `file-loader?name=public/fonts/${ hash }.[name].[ext]`,
                 },
                 {
                     test: /\.(png|jpe?g|gif|svg|ico)$/,
                     exclude: /node_modules/,
-                    loader: `file-loader?name=public/images/${hash}.[name].[ext]`
+                    loader: `file-loader?name=public/images/${ hash }.[name].[ext]`
                 },
                 {
                     test: /\.scss$/,
@@ -65,15 +65,23 @@ module.exports = (hash) => {
                         fallback: 'style-loader',
                         use: [ 'css-loader?sourceMap', 'postcss-loader', 'sass-loader' ]
                     } )
+                },
+                {
+                    test: /\.(graphql|gql)$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'gql-loader',
+                        options: {
+                            baseDir: `${ root }/src/graphql`
+                        }
+                    }
                 }
             ],
         },
         plugins: [
             new HtmlWebpackPlugin( { template: 'src/ssr/index.html', inject: false } ),
             new webpack.NoEmitOnErrorsPlugin(),
-            new webpack.optimize.UglifyJsPlugin(),
-            new ExtractTextPlugin( `public/${hash}.[name].css` ),
-            new OptimizeCssAssetsPlugin(),
+            new ExtractTextPlugin( `public/${ hash }.[name].css` ),
             new webpack.LoaderOptionsPlugin(
                 {
                     htmlLoader:
@@ -82,9 +90,15 @@ module.exports = (hash) => {
                     }
                 }
             ),
-            new CopyWebpackPlugin([
-                { from: `${ root }/node_modules/ckeditor`, to: 'public/ckeditor'}
-            ])
+            new CopyWebpackPlugin( [
+                { from: `${ root }/node_modules/ckeditor`, to: 'public/ckeditor' }
+            ] )
         ]
     }
-}
+    if ( process.env.npm_config_env === 'production' ) {
+        baseConfig.plugins.push( new webpack.optimize.UglifyJsPlugin() );
+        baseConfig.plugins.push( new OptimizeCssAssetsPlugin() );
+    }
+
+    return baseConfig;
+};

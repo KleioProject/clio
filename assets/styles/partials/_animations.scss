@@ -1,0 +1,123 @@
+.some-info,
+.some-other-info {
+    padding: 20px;
+    text-align: center;
+    background-color: lightblue;
+}
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    transition: opacity 1s;
+}
+
+.fade-leave {}
+
+.fade-leave-active {
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.slide-enter {
+    opacity: 0;
+}
+
+.slide-enter-active {
+    animation: slide-in 1s ease-out forwards;
+    transition: opacity .5s;
+}
+
+.slide-leave {}
+
+.slide-leave-active {
+    // position: absolute;
+    // width: 100%;
+    opacity: 0;
+    animation: slide-out 1s ease-out forwards;
+    transition: opacity 1s;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(20px);
+    }
+}
+
+.cube {
+    width: 300px;
+    height: 100px;
+    background-color: lightgreen;
+}
+
+.dynamic-component {
+    padding: 20px;
+    text-align: center;
+    &.error {
+        background-color: lightpink;
+    }
+    &.success {
+        background-color: lightgreen;
+    }
+}
+
+.list-item {
+    margin-bottom: 10px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    list-style: none;
+    background-color: lightsalmon;
+    border-radius: 5px;
+}
+
+.slied-moove {
+    transition: transform 1s;
+}
+
+.flip-enetr {
+    /* transforn: rotateY(0deg); */
+}
+
+.flip-enter-active {
+    animation: flip-in 0.5s ease-out forwards;
+}
+
+.flip-leave {
+    /* transforn: rotateY(0deg); */
+}
+
+.flip-leave-active {
+    animation: flip-out 0.5s ease-out forwards;
+}
+
+@keyframes flip-out {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(90deg);
+    }
+}
+
+@keyframes flip-in {
+    from {
+        transform: rotateY(90deg);
+    }
+    to {
+        transform: rotateY(0deg);
+    }
+}

@@ -5,13 +5,14 @@ const nodeExternals = require( 'webpack-node-externals' );
 
 const baseConfig = require( './webpack.base.js' );
 
-const ENV = process.env.NODE_ENV = 'production';
 /**
  * In order to set API url for development run in the console:
  * npm run develop --apiurl=http://someipaddress:port
  * Example: npm run production --apiurl=http://localhost:4000/ --host=http://localhost --port=8081
  */
-const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/';
+const ENV = process.env.npm_config_env || 'development';
+process.env.NODE_ENV = ENV;
+const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/api/';
 const HOST = process.env.npm_config_host || 'http://localhost';
 const PORT = process.env.npm_config_port || '8080';
 
@@ -49,6 +50,4 @@ module.exports = ( hash ) => {
             ),
         ]
     }
-}
-
-//module.exports = webpackMerge( baseConfig, serverSpecificConfig );
+};

@@ -2,42 +2,42 @@ import Vue from 'vue';
 import VueRouter from "vue-router";
 
 Vue.use( VueRouter );
-/* import Playground from "./components/playground/Playground";
-import Home from "./routes/home/components/Home/Home";
-import Page404 from "./components/Page404/Page404"; */
 
-function createRouter() {
-    /* const Playground = r => require.ensure( [], () => r( require( './components/playground/Playground' ) ), 'play' );
-    const Home = r => require.ensure( [], () => r( require( './routes/home/components/Home/Home' ) ), 'home' );
-    const Page404 = r => require.ensure( [], () => r( require( './components/Page404/Page404' ) ), 'page404' );
-     */
-    let Playground;
-    let PlaygroundDetails;
-    let Home;
+function createRouter( store ) {
     let Page404;
-    let Animations;
+    let Contacts;
+    let Guide;
+    let Home;
+    let Login;
+    let Profile;
+    let Project;
+    let Register;
+    let Rules;
     let Search;
-    let Editor;
-    if ( isSSR ) {
-        // console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SSR MODE; isBrowser: ', isBrowser );
-        Playground = isBrowser ? () => System.import( './components/playground/Playground' ) : require( './components/playground/Playground' ).default;
-        PlaygroundDetails = isBrowser ? () => System.import( './components/playground/components/details/PlaygroundDetails' ) : require( './components/playground/components/details/PlaygroundDetails' ).default;
-        Home = isBrowser ? () => System.import( './routes/home/components/Home/Home' ) : require( './routes/home/components/Home/Home' ).default;
-        Page404 = isBrowser ? () => System.import( './components/Page404/Page404' ) : require( './components/Page404/Page404' ).default;
-        Animations = isBrowser ? () => System.import( './routes/animations/components/Animations' ) : require( './routes/animations/components/Animations' ).default;
-        Search = isBrowser ? () => System.import( './routes/search/Search' ) : require( './routes/search/Search' ).default;
-        Editor = isBrowser ? () => System.import( './routes/editor/Editor' ) : require( './routes/editor/Editor' ).default;
-    } else {
-        // console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NON SSR MODE; isBrowser: ', isBrowser );
-        Playground = () => System.import( './components/playground/Playground' );
-        PlaygroundDetails = () => System.import( './components/playground/components/details/PlaygroundDetails' );
-        Home = () => System.import( './routes/home/components/Home/Home' );
-        Page404 = () => System.import( './components/Page404/Page404' );
-        Animations = () => System.import( './routes/animations/components/Animations' );
-        Search = () => System.import( './routes/search/Search' );
-        Editor = () => System.import( './routes/editor/Editor' );
-    }
 
+    if ( isSSR ) {
+        Page404 = isBrowser ? () => System.import( './routes/404/Page404' ) : require( './routes/404/Page404' ).default;
+        Contacts = isBrowser ? () => System.import( './routes/contacts/Contacts' ) : require( './routes/contacts/Contacts' ).default;
+        Guide = isBrowser ? () => System.import( './routes/guide/Guide' ) : require( './routes/guide/Guide' ).default;
+        Home = isBrowser ? () => System.import( './routes/home/Home' ) : require( './routes/home/Home' ).default;
+        Login = isBrowser ? () => System.import( './routes/login/Login' ) : require( './routes/login/Login' ).default;
+        Profile = isBrowser ? () => System.import( './routes/profile/Profile' ) : require( './routes/profile/Profile' ).default;
+        Project = isBrowser ? () => System.import( './routes/project/Project' ) : require( './routes/project/Project' ).default;
+        Register = isBrowser ? () => System.import( './routes/register/Register' ) : require( './routes/register/Register' ).default;
+        Rules = isBrowser ? () => System.import( './routes/rules/Rules' ) : require( './routes/rules/Rules' ).default;
+        Search = isBrowser ? () => System.import( './routes/search/Search' ) : require( './routes/search/Search' ).default;
+    } else {
+        Page404 = () => System.import( './routes/404/Page404' );
+        Contacts = () => System.import( './routes/contacts/Contacts' );
+        Guide = () => System.import( './routes/guide/Guide' );
+        Home = () => System.import( './routes/home/Home' );
+        Login = () => System.import( './routes/login/Login' );
+        Profile = () => System.import( './routes/profile/Profile' );
+        Project = () => System.import( './routes/project/Project' );
+        Register = () => System.import( './routes/register/Register' );
+        Rules = () => System.import( './routes/rules/Rules' );
+        Search = () => System.import( './routes/search/Search' );
+    }
 
     const router = new VueRouter( {
         mode: 'history',
@@ -52,65 +52,81 @@ function createRouter() {
         },
         routes: [
             {
-                path: '/',
+                path: '/clio/',
+                name: 'home',
                 component: Home,
                 meta: {
-                    title: 'Home'
-                },
-                name: 'home'
-            },
-            {
-                path: '/home', redirect: { name: 'home' }
-            },
-            {
-                path: '/play/:id',
-                component: Playground,
-                meta: {
-                    title: 'Playground'
-                },
-                beforeEnter: ( to, from, next ) => {
-                    console.log( 'Guard on component', to );
-                    next();
-                },
-                children: [
-                    {
-                        path: 'details',
-                        component: PlaygroundDetails,
-                        meta: {
-                            title: 'Playground details'
-                        },
-                        name: 'playgroundDetails',
-                        beforeEnter: ( to, from, next ) => {
-                            console.log( 'Guard on child component: ', to.path );
-                            next();
-                        }
-                    }
-                ]
-            },
-            {
-                path: '/animations',
-                component: Animations,
-                meta: {
-                    title: 'Animations'
+                    title: 'Начало'
                 }
             },
             {
-                path: '/search',
-                component: Search,
+                path: '/clio/contacts',
+                name: 'contacts',
+                component: Contacts,
                 meta: {
-                    title: 'Search'
+                    title: 'Контакти'
                 }
             },
             {
-                path: '/editor',
-                component: Editor,
+                path: '/clio/guide',
+                name: 'guide',
+                component: Guide,
                 meta: {
-                    title: 'Editor',
+                    title: 'Наръчник'
+                }
+            },
+            {
+                path: '/clio/login',
+                name: 'login',
+                component: Login,
+                meta: {
+                    title: 'Вход'
+                }
+            },
+            {
+                path: '/clio/profile',
+                name: 'profile',
+                component: Profile,
+                meta: {
+                    title: 'Профил',
                     requiresLogin: true
                 }
             },
             {
+                path: '/clio/project',
+                name: 'project',
+                component: Project,
+                meta: {
+                    title: 'Проект'
+                }
+            },
+            {
+                path: '/clio/register',
+                name: 'register',
+                component: Register,
+                meta: {
+                    title: 'Регистрация'
+                }
+            },
+            {
+                path: '/clio/rules',
+                name: 'rules',
+                component: Rules,
+                meta: {
+                    title: 'Правила'
+                }
+            },
+            {
+                path: '/clio/search',
+                name: 'search',
+                component: Search,
+                meta: {
+                    title: 'Търсене'
+                }
+            },
+            {
                 path: '*',
+                name: '404',
                 component: Page404,
                 meta: {
                     title: '404'
@@ -119,13 +135,28 @@ function createRouter() {
         ]
     } );
 
-    router.beforeEach(( to, from, next ) => {
-        console.log( 'Global beforeEach: ', to.path );
+    router.beforeEach( ( to, from, next ) => {
+        console.log( `Router beforeEach. From: ${ from.path }. To: ${ to.path }` );
         if ( isBrowser ) {
             document.title = to.meta.title;
         }
-        if (isBrowser && to.meta.requiresLogin ) {
-            !!localStorage.getItem( 'user' ) ? next() : next( '/' );
+        if ( to.meta.requiresLogin ) {
+            console.log( store.getters.user );
+            if ( store.getters.user === null ) {
+                next( '/clio/login' );
+            } else {
+                next();
+            }
+            /* if ( isSSR ) {
+                router.token = router.token || window.__INITIAL_STATE__.token;
+                router.token ? next() : next( '/' );
+                if ( isBrowser ) {
+                    localStorage.setItem( 'token', router.token );
+                }
+            } else {
+                next();
+            } */
+            //next();
         } else {
             next(); //false, path, object defining route
         }
@@ -133,6 +164,5 @@ function createRouter() {
 
     return router;
 };
-
 
 export default createRouter;
