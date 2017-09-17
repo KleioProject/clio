@@ -20,7 +20,7 @@ defmodule Clio.Mixfile do
   def application do
     [
       mod: {Clio.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -38,7 +38,6 @@ defmodule Clio.Mixfile do
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:absinthe, "~> 1.3"},
@@ -48,6 +47,8 @@ defmodule Clio.Mixfile do
       {:comeonin, "~> 4.0"},
       {:argon2_elixir, "~> 1.2"},
       {:inflex, "~> 1.8"},
+      {:httpoison, "~> 0.13.0"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev},
     ]
   end
 
