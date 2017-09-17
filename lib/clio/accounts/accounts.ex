@@ -6,7 +6,7 @@ defmodule Clio.Accounts do
   import Ecto.Query, warn: false
   alias Clio.Repo
 
-  alias Clio.Accounts.{Session, User}
+  alias Clio.Accounts.{User}
 
   def list_users do
     Repo.all(User)
@@ -27,7 +27,7 @@ defmodule Clio.Accounts do
   end
 
   def verify_user(%{"password" => pass, "email" => login_email}) do
-    case Repo.get_by(User, login_email: login_email) |> Comeonin.Argon2.check_pass(pass) do
+    case Repo.get_by(User, login_email: login_email) |> Comeonin.Pbkdf2.check_pass(pass) do
       {:ok, user} ->
         {:ok, Map.take(user, [:id, :first_name, :last_name, :is_admin, :is_supervisor, :is_active])}
       {:error, _message} ->

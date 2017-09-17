@@ -12,7 +12,7 @@
 alias Clio.Repo
 alias Clio.Administrative.{Faculty}
 alias Clio.Accounts.{User}
-alias Comeonin.Argon2
+alias Comeonin.Pbkdf2
 
 faculties =
   [
@@ -45,8 +45,8 @@ users =
           id_number: "23646",
           first_name: "Admin",
           last_name: "Adminov",
-          password_hash:  Argon2.hashpwsalt("adminadmin"),
-          faculty_id: Enum.fetch!(faculties, 0).id},
+          password_hash:  Pbkdf2.hashpwsalt("adminadmin"),
+          faculty_id: :rand.uniform(16)},
 
     %User{contact_email: "supervisor@supervisor.bg",
           contact_number: "+359888234567",
@@ -55,8 +55,8 @@ users =
           id_number: "7873784167",
           first_name: "Supervisor",
           last_name: "Supervisor",
-          password_hash: Argon2.hashpwsalt("supervisor"),
-          faculty_id: Enum.fetch!(faculties, 1).id},
+          password_hash: Pbkdf2.hashpwsalt("supervisor"),
+          faculty_id: :rand.uniform(16)},
 
     %User{contact_email: "user@user.bg",
           contact_number: "+359888345678",
@@ -65,8 +65,8 @@ users =
           id_number: "8737",
           first_name: "User",
           last_name: "Userov",
-          password_hash: Argon2.hashpwsalt("useruser"),
-          faculty_id: Enum.fetch!(faculties, 2).id},
+          password_hash: Pbkdf2.hashpwsalt("useruser"),
+          faculty_id: :rand.uniform(16)},
   ]
 
 users = users |> Enum.map(&Repo.insert!(&1))

@@ -31,7 +31,7 @@ defmodule ClioWeb.Router do
   end
 
   scope "/gql" do
-    pipe_through [:api, :token]
+    pipe_through [:token]
 
     forward "/", Absinthe.Plug, schema: ClioWeb.Schema
   end

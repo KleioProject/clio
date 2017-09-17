@@ -3,7 +3,7 @@ defmodule Clio.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Clio.Accounts.User
-  alias Comeonin.Argon2
+  alias Comeonin.Pbkdf2
 
 
   schema "users" do
@@ -62,7 +62,7 @@ defmodule Clio.Accounts.User do
   defp put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
-        change(changeset, Argon2.add_hash(password))
+        change(changeset, Pbkdf2.add_hash(password))
       _ ->
         changeset
     end

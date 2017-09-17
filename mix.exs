@@ -45,9 +45,10 @@ defmodule Clio.Mixfile do
       {:absinthe_ecto, "~> 0.1.0"},
       {:exfmt, "~> 0.4.0"},
       {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2"},
+      {:pbkdf2_elixir, "~> 0.12"},
       {:inflex, "~> 1.8"},
       {:httpoison, "~> 0.13.0"},
+      {:stream_data, "~> 0.2.0", only: [:dev, :test]},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
     ]
   end

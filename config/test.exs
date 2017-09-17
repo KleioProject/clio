@@ -19,6 +19,4 @@ config :clio, Clio.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # Make hashing faster when testing
-config :argon2_elixir,
-  t_cost: 2,
-  m_cost: 12
+config :pbkdf2_elixir, :rounds, 1
