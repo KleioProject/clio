@@ -93,7 +93,7 @@ export default {
             Vue.axios.post( 'http://localhost:4000/account/login', payload.loginData )
                 .then( function ( response ) {
                     console.log( response );
-                    commit( 'setUser', response );
+                    commit( 'setUser', response.data );
                 } )
                 .catch( function ( error ) {
                     console.log( typeof error );

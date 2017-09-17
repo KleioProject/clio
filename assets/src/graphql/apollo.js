@@ -2,7 +2,10 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 function createApolloClient( store ) {
     const networkInterface = createNetworkInterface( {
-        uri: 'http://localhost:4000/gql'
+        uri: 'http://localhost:4000/gql',
+        opts: {
+            credentials: 'same-origin',
+        }
     } );
 
     // TODO: handle errors here (showm messages etc)
