@@ -24,6 +24,12 @@ defmodule ClioWeb.Router do
     forward "/", AccountRouter
   end
 
+  scope "/clio", ClioWeb do
+    pipe_through [:token]
+
+    get "/*path", PageController, :index
+  end
+
   scope "/gql" do
     pipe_through [:api, :token]
 
