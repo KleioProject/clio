@@ -36,14 +36,16 @@ server.use( '/public', express.static( __dirname + '/public' ) );
 server.use( '/public/images', express.static( __dirname + '/public/images' ) );
 server.use( '/public/fonts', express.static( __dirname + '/public/fonts' ) );
 
-server.get( '*', ( req, res ) => {
+server.all( '*', ( req, res ) => {
     console.log( `Server request url: ${ req.url }` );
-    const userFromBody = { name: 'Clio' };
-    const context = { url: req.url, cookies: req.cookies, token: 'I\'m token sent by client in the request.', user: userFromBody };
-    /*   console.dir( req.cookies );
-      if ( !Object.keys( req.cookies ).length ) {
-          res.cookie( 'ssr-cookie', 'I\'m a cookie set by the server side rendring server.' );
-      } */
+    const user = req.body.user || { name: 'Clio' };
+    const token = req.body.token || 'I\'m token sent by Phoenix.';
+    const context = {
+        cookies: req.cookies,
+        token: token,
+        url: req.url,
+        user: user
+    };
 
     bundleRenderer.renderToString( context, ( err, html ) => {
         if ( err ) {

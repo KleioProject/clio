@@ -11,7 +11,7 @@ const baseConfig = require( './webpack.base.js' );
  */
 const ENV = process.env.npm_config_env || 'development';
 process.env.NODE_ENV = ENV;
-const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/api/';
+const API_URL = process.env.npm_config_apiurl || 'http://localhost:4000/';
 const HOST = process.env.npm_config_host || 'http://localhost';
 const PORT = process.env.npm_config_port || '8080';
 

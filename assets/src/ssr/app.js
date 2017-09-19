@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-//import axios from 'axios';
-//import VueAxios from 'vue-axios';
 import { sync } from 'vuex-router-sync';
 
 import './../../styles/main.scss';
@@ -17,6 +15,7 @@ if ( process.env.ENV === 'production' ) {
 }
 
 export function createApp() {
+    console.log( 'App created isBrowser: ', isBrowser );
     const store = createStore();
     const router = createRouter( store );
     const client = createApolloClient( store );
@@ -35,6 +34,10 @@ export function createApp() {
     Vue.use( ApolloPlugin );
     Vue.use( AxiosPlugin );
 
+    // In order to have it in the router.beforeEach on the Browser!
+    if ( isBrowser && window.__INITIAL_STATE__ ) {
+        store.replaceState( window.__INITIAL_STATE__ );
+    }
     sync( store, router );
 
     const app = new Vue( {

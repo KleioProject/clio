@@ -1,18 +1,11 @@
-import { createApp } from './app'
+import { createApp } from './app';
 
 export default ( context ) => {
     return new Promise( ( resolve, reject ) => {
         const { app, router, store, client, axios } = createApp()
 
-        // Set the token to the router object 
-        // in order to be able to authenticate
-        // the user on guarded routes at server
-        // side:
-        router.token = context.token || null;
-        // Set token on the store's state in
-        // order to get it on the client side:
-        store.state.token = router.token;
-        store.state.userModule.user = context.user;
+        store.commit( 'setToken', context.token );
+        store.commit( 'setUser', context.user );
 
         router.push( context.url );
 
@@ -36,7 +29,7 @@ export default ( context ) => {
                 ).then( () => {
                     context.state = store.state;
                     resolve( app );
-                } ).catch( reject );
+                } ).catch( reject ); // set user to null and router.push('/login');
             },
             reject
         );

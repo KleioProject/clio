@@ -12,14 +12,10 @@
 import { mapGetters } from 'vuex';
 
 export default {
-    asyncData({ store, route }) {
-        console.log(`asyncData static method of Login called from ${isBrowser ? 'client' : 'server'}`);
-    },
     beforeMount: function() {
         console.log(`beforeMount method of Login called from ${isBrowser ? 'client' : 'server'}`);
     },
     computed: {
-        ...mapGetters([]),
         email: {
             get() {
                 return this.$store.getters.email;
@@ -40,11 +36,8 @@ export default {
     methods: {
         login() {
             this.$store.dispatch('login', {
-                axios: this.$axios,
-                loginData: {
-                    email: this.email,
-                    password: this.password
-                }
+                email: this.email,
+                password: this.password
             });
             this.$store.dispatch('setEmail', '');
             this.$store.dispatch('setPassword', '');

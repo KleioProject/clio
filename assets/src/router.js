@@ -141,22 +141,11 @@ function createRouter( store ) {
             document.title = to.meta.title;
         }
         if ( to.meta.requiresLogin ) {
-            console.log( store.getters.user );
             if ( store.getters.user === null ) {
                 next( '/clio/login' );
             } else {
                 next();
             }
-            /* if ( isSSR ) {
-                router.token = router.token || window.__INITIAL_STATE__.token;
-                router.token ? next() : next( '/' );
-                if ( isBrowser ) {
-                    localStorage.setItem( 'token', router.token );
-                }
-            } else {
-                next();
-            } */
-            //next();
         } else {
             next(); //false, path, object defining route
         }

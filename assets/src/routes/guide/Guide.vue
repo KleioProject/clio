@@ -6,13 +6,13 @@
 
 <script>
 export default {
-    asyncAction: {
+   /*  asyncAction: {
         action: 'fetchUser',
         router: true,
         payload: {
             id: 3
         }
-    },
+    }, */
     beforeMount: function() {
         console.log(`beforeMount method of Guide called from ${isBrowser ? 'client' : 'server'}`);
     }

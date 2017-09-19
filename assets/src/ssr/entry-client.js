@@ -1,11 +1,7 @@
 
-import { createApp } from './app'
+import { createApp } from './app';
 
-const { app, router, store } = createApp();
-
-if ( window.__INITIAL_STATE__ ) {
-    store.replaceState( window.__INITIAL_STATE__ );
-}
+const { app, router, store, client, axios } = createApp();
 
 router.onReady( () => {
     // Add router hook for handling asyncData.
