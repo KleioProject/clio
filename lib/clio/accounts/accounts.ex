@@ -34,4 +34,11 @@ defmodule Clio.Accounts do
         {:error,"Грешен имеил или парола!"}
     end
   end
+
+  def search_users(search_term) do
+    (from u in User,
+      order_by: fragment("similarity(?, ?) DESC", u.search_name, ^search_term),
+      limit: 10)
+    |> Repo.all
+  end
 end

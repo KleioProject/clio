@@ -19,6 +19,11 @@ defmodule ClioWeb.Schema do
     field :users, list_of(:user) do
       resolve &Accounts.Resolver.users/3
     end
+
+    field :search_users, list_of(:user) do
+      arg :search_term, non_null(:string)
+      resolve &Accounts.Resolver.search_users/3
+    end
   end
 
   mutation do

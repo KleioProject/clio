@@ -24,4 +24,8 @@ defmodule Clio.Accounts.Resolver do
         {:error, "0xBADDFOOD"}
     end
   end
+
+  def search_users(_root, %{search_term: search_term} = args, _info) do
+    {:ok, Accounts.search_users(search_term)}
+  end
 end

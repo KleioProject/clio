@@ -12,7 +12,6 @@
 alias Clio.Repo
 alias Clio.Administrative.{Faculty}
 alias Clio.Accounts.{User}
-alias Comeonin.Pbkdf2
 
 faculties =
   [
@@ -34,7 +33,7 @@ faculties =
     %Faculty{name: "Юридически факултет", abbreviation: "ЮФ"},
   ]
 
-faculties = faculties |> Enum.map(&Repo.insert!(&1))
+faculties |> Enum.map(&Repo.insert!(&1))
 
 users =
   [
@@ -45,17 +44,16 @@ users =
           id_number: "23646",
           first_name: "Admin",
           last_name: "Adminov",
-          password_hash:  Pbkdf2.hashpwsalt("adminadmin"),
+          password:  "adminadmin",
           faculty_id: :rand.uniform(16)},
 
     %User{contact_email: "supervisor@supervisor.bg",
           contact_number: "+359888234567",
           login_email: "supervisor@uni-sofia.bg",
-          is_active: true, is_supervisor: true, is_admin: false,
           id_number: "7873784167",
           first_name: "Supervisor",
           last_name: "Supervisor",
-          password_hash: Pbkdf2.hashpwsalt("supervisor"),
+          password: "supervisor",
           faculty_id: :rand.uniform(16)},
 
     %User{contact_email: "user@user.bg",
@@ -65,11 +63,11 @@ users =
           id_number: "8737",
           first_name: "User",
           last_name: "Userov",
-          password_hash: Pbkdf2.hashpwsalt("useruser"),
+          password: "useruser",
           faculty_id: :rand.uniform(16)},
   ]
 
-users = users |> Enum.map(&Repo.insert!/1)
+users |> Enum.map(&User.create_changeset(&1, %{})) |> Enum.map(&Repo.insert!/1)
 
 for _ <- 0..1000 do
   %User{}
@@ -78,7 +76,3 @@ for _ <- 0..1000 do
 end
 |> Enum.map(&(Task.async(fn -> Repo.insert!(&1, on_conflict: :nothing) end)))
 |> Enum.map(&Task.await/1)
-
-
-(%User{}
-|> User.create_changeset(Clio.Factory.params_for(:user))).data |> IO.inspect
