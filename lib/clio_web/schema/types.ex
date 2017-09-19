@@ -20,5 +20,6 @@ defmodule ClioWeb.Schema.Types do
     field :is_supervisor, non_null(:boolean)
     field :last_name, non_null(:string)
     field :login_email, non_null(:string)
+    field :search_name, non_null(:string)
   end
 end

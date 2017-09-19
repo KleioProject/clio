@@ -20,7 +20,7 @@ defmodule Clio.Mixfile do
   def application do
     [
       mod: {Clio.Application, []},
-      extra_applications: [:logger, :runtime_tools, :httpoison]
+      extra_applications: [:logger, :runtime_tools, :httpoison, :ex_machina]
     ]
   end
 
@@ -48,7 +48,9 @@ defmodule Clio.Mixfile do
       {:pbkdf2_elixir, "~> 0.12"},
       {:inflex, "~> 1.8"},
       {:httpoison, "~> 0.13.0"},
-      {:stream_data, "~> 0.2.0", only: [:dev, :test]},
+      {:faker, "~> 0.9"},
+      {:ex_machina, "~> 2.1"},
+      # {:stream_data, git: "git://github.com/whatyouhide/stream_data.git"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
     ]
   end

@@ -55,3 +55,7 @@ config :clio, Clio.Repo,
   database: "clio_dev",
   hostname: "localhost",
   pool_size: 10
+
+# Make hashing faster when dev
+
+config :pbkdf2_elixir, :rounds, 1
