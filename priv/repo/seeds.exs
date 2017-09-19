@@ -69,4 +69,16 @@ users =
           faculty_id: :rand.uniform(16)},
   ]
 
-users = users |> Enum.map(&Repo.insert!(&1))
+users = users |> Enum.map(&Repo.insert!/1)
+
+for _ <- 0..1000 do
+  %User{}
+  |> User.create_changeset(Clio.Factory.params_for(:user))
+  |> User.activate_changeset()
+end
+|> Enum.map(&(Task.async(fn -> Repo.insert!(&1, on_conflict: :nothing) end)))
+|> Enum.map(&Task.await/1)
+
+
+(%User{}
+|> User.create_changeset(Clio.Factory.params_for(:user))).data |> IO.inspect
