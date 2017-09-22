@@ -20,21 +20,21 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 
 ## Building the Client code
-To get the dependencies:
+### Getting the dependencies:
 
   * Make sure you have `node` and `npm` installed
   * Go to `assets` folder
   * Run `npm install` to download the dependencies (`node_modules` folder and `package-lock.json` will be created in the `assets` folder)
 
-To to build the Client resources for different modes:
+### Starting the build process and serving the code:
 
-* For `Development` with hot reloading: in `assets` folder run `npm run develop`. The code will be served on [`http://localhost:8080`](http://localhost:8080) (if no corresponding environment variables have been provided - see below)
-* For `Production` (resources saved in `static` folder): in `assets` folder run `npm run production`
-* For `Production with Server Side Rendering` (resources saved in `static` folder) in `assets` folder run `npm run ssr`
+* For `Development`: in `assets` folder run `npm run ssr:watch`. This will first clear the `static` folder, then copy the rendering server and finally will build both the server side and the client side bundles and stay in `watch` mode to rebuild the bundles on saving a file change. To open the application: `in a different console` start the `node server` in the `assets` folder by running the `npm run serverssr`. Then `in a third console` start the `Phoenix` server by running the `mix phx.server` command in the root directory. 
+Open the browser at [`http://localhost:4000`](http://localhost:4000).
 
-If you want to serve the production code (for both SSR and non-SSR) on node server add `:start` after the script's name (Example: `npm run production:start`). The code will be served on [`http://localhost:3003`](http://localhost:3003)
+* For `Production` in `assets` folder run `npm run ssr` and provide environment variables. Get the static folder and copy it to the corresponding folder on the production server. Then you must start the `node server`.
 
-## Passing environment variables when building the Client code
+
+## Passing environment variables when building the bundles:
 
 To pass environmental variables, set them after the script's name like in this example: `npm run develop --port=8081 --host=http://localhost --apiurl=http://localhost:4000/`. If not provided, default values will be used (set in webpack config files)
 
@@ -42,9 +42,9 @@ To pass environmental variables, set them after the script's name like in this e
 
   * Node: https://nodejs.org/en/
   * Webpack: https://webpack.js.org/
-  * webpack-dev-server: https://www.npmjs.com/package/webpack-dev-server
   * Vue.js: https://vuejs.org/
   * Vuex: https://vuex.vuejs.org/en/
   * Vue.js Server Side Rendering: https://vuejs.org/v2/guide/ssr.html
   * apollo-client: https://www.npmjs.com/package/apollo-client
+  * axios: https://github.com/mzabriskie/axios
   * SCSS: http://sass-lang.com/

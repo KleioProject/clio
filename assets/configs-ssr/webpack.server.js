@@ -2,6 +2,7 @@ const webpack = require( "webpack" );
 const webpackMerge = require( 'webpack-merge' );
 const VueSSRServerPlugin = require( 'vue-server-renderer/server-plugin' );
 const nodeExternals = require( 'webpack-node-externals' );
+const WebpackOnBuildPlugin = require( 'on-build-webpack' );
 
 const baseConfig = require( './webpack.base.js' );
 
@@ -48,6 +49,9 @@ module.exports = ( hash ) => {
                     'isSSR': true
                 }
             ),
+            new WebpackOnBuildPlugin( function ( stats ) {
+                console.log( '>>>>>>>>>>>>>>>>>>>>>>>>> Server build ready <<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
+            } )
         ]
     }
 };

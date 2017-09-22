@@ -17,6 +17,10 @@ const root = require( './../root.path' );
  */
 module.exports = ( hash ) => {
     const baseConfig = {
+        stats: {
+            assets: true,
+            excludeAssets: [ /ckeditor/ ],
+        },
         output: {
             path: buildPath,
             publicPath: '/',

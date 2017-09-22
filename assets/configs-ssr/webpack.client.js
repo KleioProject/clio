@@ -1,6 +1,7 @@
 const webpack = require( "webpack" );
 const webpackMerge = require( 'webpack-merge' );
 const VueSSRClientPlugin = require( 'vue-server-renderer/client-plugin' );
+const WebpackOnBuildPlugin = require( 'on-build-webpack' );
 
 const baseConfig = require( './webpack.base.js' );
 
@@ -49,6 +50,9 @@ module.exports = ( hash ) => {
                     'isSSR': true
                 }
             ),
+            new WebpackOnBuildPlugin( function ( stats ) {
+                console.log( '>>>>>>>>>>>>>>>>>>>>>>>>> Client build ready <<<<<<<<<<<<<<<<<<<<<<<<<<<<<' );
+            } )
         ]
     }
 };
