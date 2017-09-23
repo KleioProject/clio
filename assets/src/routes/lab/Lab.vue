@@ -12,6 +12,7 @@
                 <a>Едитор</a>
             </router-link>
         </ul>
+        <button @click="addMessage">Create message</button>
         <router-view></router-view>
     </div>
 </template>
@@ -19,8 +20,24 @@
 <script>
 
 export default {
+    data() {
+        return {
+            isSuccess: true
+        }
+    },
     beforeMount: function() {
         console.log(`beforeMount method of Lab called from ${isBrowser ? 'client' : 'server'}`);
+    },
+    methods: {
+        addMessage() {
+            this.isSuccess = !this.isSuccess;
+            this.$store.dispatch('addMessage', {
+                headline: 'This is a message',
+                body: 'This is a test message to show how the messages will look like!',
+                timestamp: (new Date()).getTime(),
+                isSuccess: this.isSuccess
+            });
+        }
     }
 }
 </script>

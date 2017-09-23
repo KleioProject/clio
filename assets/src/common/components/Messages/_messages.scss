@@ -1,0 +1,52 @@
+.messages-component {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 25vw;
+    min-width: 260px;
+}
+
+.message-component {
+    padding: 1rem 2rem;
+    background-color: #ffc6c6;
+    &.success {
+        background-color: #bbf7bb;
+    }
+}
+
+.message-enter {
+    opacity: 0;
+}
+
+.message-enter-active {
+    animation: message-in .4s ease-out forwards;
+    transition: opacity .4s;
+}
+
+.message-leave-active {
+    opacity: 0;
+    animation: message-out .25s ease-out forwards;
+    transition: opacity .5s;
+}
+
+.message-move {
+    transition: transform .5s;
+}
+
+@keyframes message-in {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes message-out {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

@@ -7,6 +7,9 @@
         <transition name="slide-routes" mode="out-in">
             <message v-if="showMessage"></message>
         </transition>
+        <transition name="message" mode="in-out">
+            <messages v-if="messages.length > 0"></messages>
+        </transition>
     </div>
 </template>
 
@@ -15,6 +18,7 @@ import { mapGetters } from 'vuex';
 
 import Navbar from "./common/components/Navbar/Navbar";
 import Message from "./common/components/Message/Message";
+import Messages from "./common/components/Messages/Messages"
 
 /* console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`API_URL: ${process.env.API_URL}`);
@@ -27,16 +31,17 @@ console.log(`isSSR: ${isSSR}`); */
 export default {
     components: {
         navbar: Navbar,
-        message: Message
+        message: Message,
+        messages: Messages
     },
     beforeCreate: function() {
-      //  console.log(`beforeCreate method of App called from ${isBrowser ? 'client' : 'server'}`);
+        //  console.log(`beforeCreate method of App called from ${isBrowser ? 'client' : 'server'}`);
     },
     beforeMount: function() {
-       // console.log(`beforeMount method of App called from ${isBrowser ? 'client' : 'server'}`);
+        // console.log(`beforeMount method of App called from ${isBrowser ? 'client' : 'server'}`);
     },
     computed: {
-        ...mapGetters(['showMessage'])
+        ...mapGetters(['showMessage', 'messages'])
     },
 }
 </script>

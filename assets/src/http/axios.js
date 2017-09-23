@@ -6,20 +6,21 @@ function createAxiosClient( store ) {
     client.interceptors.response.use(
         ( response ) => {
             console.log( 'Axios interceptors response.' );
+            store.dispatch( 'addMessage', {
+                headline: 'Axios Success',
+                body: 'Response has been received.',
+                timestamp: ( new Date() ).getTime(),
+                isSuccess: true
+            } );
             return response;
         },
         ( error ) => {
-            console.dir( error );
-            store.dispatch( 'setIsSuccess', false );
-            store.dispatch( 'setMessageBody', error.message );
-            store.dispatch( 'setShowMessage', true );
-            if ( isBrowser ) {
-                setTimeout( () => {
-                    store.dispatch( 'setShowMessage', false );
-                    store.dispatch( 'setMessageBody', '' );
-                    store.dispatch( 'setIsSuccess', true );
-                }, 5000 );
-            }
+            store.dispatch( 'addMessage', {
+                headline: 'Axios Error',
+                body: error.message,
+                timestamp: ( new Date() ).getTime(),
+                isSuccess: false
+            } );
             return Promise.reject( error );
         }
     );

@@ -17,23 +17,24 @@ function createApolloClient( store ) {
         }
     ] );
 
-    // TODO: handle errors here (showm messages etc)
     networkInterface.useAfter( [
         {
             applyAfterware( { response }, next ) {
                 console.log( 'Apollo useAfter' );
-                console.log( response );
                 if ( !response.ok ) {
-                    store.commit( 'setIsSuccess', false );
-                    store.commit( 'setMessageBody', response.statusText );
-                    store.commit( 'setShowMessage', true );
-                    if ( isBrowser ) {
-                        setTimeout( () => {
-                            store.commit( 'setShowMessage', false );
-                            store.commit( 'setMessageBody', '' );
-                            store.commit( 'setIsSuccess', true );
-                        }, 5000 );
-                    }
+                    store.dispatch( 'addMessage', {
+                        headline: 'Apollo Error',
+                        body: response.statusText,
+                        timestamp: ( new Date() ).getTime(),
+                        isSuccess: false
+                    } );
+                } else {
+                    store.dispatch( 'addMessage', {
+                        headline: 'Apollo Success',
+                        body: 'Response has been received.',
+                        timestamp: ( new Date() ).getTime(),
+                        isSuccess: true
+                    } );
                 }
                 next();
             }
