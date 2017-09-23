@@ -5,9 +5,9 @@ import createState from './state';
 import createGetters from './getters';
 import createMutations from './mutations';
 import createActions from './actions';
+import createLabModule from './modules/lab-module';
 import createLoginModule from './modules/login-module';
 import createMessageModule from './modules/message-module';
-import createTestModule from './modules/test-module';
 
 Vue.use( Vuex );
 
@@ -18,9 +18,9 @@ function createStore() {
         mutations: createMutations(),
         actions: createActions(),
         modules: {
+            labModule: createLabModule(),
             loginModule: createLoginModule(),
-            messageModule: createMessageModule(),
-            testModule: createTestModule()
+            messageModule: createMessageModule()
         }
     } );
 };

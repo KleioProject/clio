@@ -1,0 +1,8 @@
+query labAcQuery($searchTerm: String) { 
+    searchUsers(searchTerm: $searchTerm) {
+				id
+				firstName
+                lastName
+				searchName
+			}
+}

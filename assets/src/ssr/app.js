@@ -10,9 +10,7 @@ import createApolloClient from '../graphql/apollo';
 import createAxiosClient from '../http/axios';
 import App from "./../App";
 
-if ( process.env.ENV === 'production' ) {
-    Vue.config.productionTip = false;
-}
+Vue.config.productionTip = false;
 
 export function createApp() {
     console.log( 'App created isBrowser: ', isBrowser );

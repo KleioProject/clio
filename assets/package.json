@@ -13,7 +13,7 @@
     "ssr:start": "npm run ssr && node static/server.js",
     "serverprod": "node backend/prod.server.js",
     "serverdev": "nodemon backend/prod.server.js",
-    "serverssr": "node static/server.js"
+    "serverssr": "nodemon static/server.js --ignore src/ --ignore styles/"
   },
   "repository": {
     "type": "git",

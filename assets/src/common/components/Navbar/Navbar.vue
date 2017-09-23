@@ -30,5 +30,8 @@
         <router-link to="/asas" tag="li" class="link-item" active-class="link-active">
             <a>404</a>
         </router-link>
+        <router-link to="/clio/lab" tag="li" class="link-item" active-class="link-active">
+            <a>Лаборатория</a>
+        </router-link>
     </ul>
 </template>

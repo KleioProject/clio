@@ -8,6 +8,7 @@ function createRouter( store ) {
     let Contacts;
     let Guide;
     let Home;
+    let Lab;
     let Login;
     let Profile;
     let Project;
@@ -20,6 +21,7 @@ function createRouter( store ) {
         Contacts = isBrowser ? () => System.import( './routes/contacts/Contacts' ) : require( './routes/contacts/Contacts' ).default;
         Guide = isBrowser ? () => System.import( './routes/guide/Guide' ) : require( './routes/guide/Guide' ).default;
         Home = isBrowser ? () => System.import( './routes/home/Home' ) : require( './routes/home/Home' ).default;
+        Lab = isBrowser ? () => System.import( './routes/lab/Lab' ) : require( './routes/lab/Lab' ).default;
         Login = isBrowser ? () => System.import( './routes/login/Login' ) : require( './routes/login/Login' ).default;
         Profile = isBrowser ? () => System.import( './routes/profile/Profile' ) : require( './routes/profile/Profile' ).default;
         Project = isBrowser ? () => System.import( './routes/project/Project' ) : require( './routes/project/Project' ).default;
@@ -31,6 +33,7 @@ function createRouter( store ) {
         Contacts = () => System.import( './routes/contacts/Contacts' );
         Guide = () => System.import( './routes/guide/Guide' );
         Home = () => System.import( './routes/home/Home' );
+        Lab = () => System.import( './routes/lab/Lab' );
         Login = () => System.import( './routes/login/Login' );
         Profile = () => System.import( './routes/profile/Profile' );
         Project = () => System.import( './routes/project/Project' );
@@ -73,6 +76,14 @@ function createRouter( store ) {
                 component: Guide,
                 meta: {
                     title: 'Наръчник'
+                }
+            },
+            {
+                path: '/clio/lab',
+                name: 'lab',
+                component: Lab,
+                meta: {
+                    title: 'Лаборатория'
                 }
             },
             {
