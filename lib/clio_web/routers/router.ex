@@ -45,7 +45,7 @@ defmodule ClioWeb.Router do
   end
 
   scope "/graphiql" do
-    pipe_through :acc_json
+    pipe_through :gql
 
     forward "/",
       Absinthe.Plug.GraphiQL,
@@ -53,7 +53,7 @@ defmodule ClioWeb.Router do
       context: %{pubsub: ClioWeb.Endpoint}
   end
 
-  # scope "/", ClioWeb do
-  #   match(:*, "/*any" , RedirectController, :redirect_to_index)
-  # end
+  scope "/", ClioWeb do
+    match(:*, "/*any" , RedirectController, :redirect_to_index)
+  end
 end
