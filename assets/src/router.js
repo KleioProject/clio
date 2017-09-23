@@ -8,6 +8,7 @@ function createRouter( store ) {
     let AutoC;
     let Page404;
     let Contacts;
+    let Editor;
     let Guide;
     let Home;
     let Lab;
@@ -23,6 +24,7 @@ function createRouter( store ) {
         AutoC = isBrowser ? () => System.import( './routes/lab/child-routes/AutoC' ) : require( './routes/lab/child-routes/AutoC' ).default;
         Page404 = isBrowser ? () => System.import( './routes/404/Page404' ) : require( './routes/404/Page404' ).default;
         Contacts = isBrowser ? () => System.import( './routes/contacts/Contacts' ) : require( './routes/contacts/Contacts' ).default;
+        Editor = isBrowser ? () => System.import( './routes/lab/child-routes/Editor' ) : require( './routes/lab/child-routes/Editor' ).default;
         Guide = isBrowser ? () => System.import( './routes/guide/Guide' ) : require( './routes/guide/Guide' ).default;
         Home = isBrowser ? () => System.import( './routes/home/Home' ) : require( './routes/home/Home' ).default;
         Lab = isBrowser ? () => System.import( './routes/lab/Lab' ) : require( './routes/lab/Lab' ).default;
@@ -37,6 +39,7 @@ function createRouter( store ) {
         AutoC = () => System.import( './routes/lab/child-routes/AutoC' );
         Page404 = () => System.import( './routes/404/Page404' );
         Contacts = () => System.import( './routes/contacts/Contacts' );
+        Editor = () => System.import( './routes/lab/child-routes/Editor' );
         Guide = () => System.import( './routes/guide/Guide' );
         Home = () => System.import( './routes/home/Home' );
         Lab = () => System.import( './routes/lab/Lab' );
@@ -106,6 +109,14 @@ function createRouter( store ) {
                         component: AutoC,
                         meta: {
                             title: 'Аутокомплийт'
+                        }
+                    },
+                    {
+                        path: 'editor',
+                        name: 'editor',
+                        component: Editor,
+                        meta: {
+                            title: 'Едитор'
                         }
                     }
                 ]

@@ -9,6 +9,8 @@ export default () => {
         state: {
             acResults: [],
             acSelected: null,
+            ckOne: 'CK One',
+            ckTwo: 'CK Two',
             faculties: [],
             markerDiameter: 22
         },
@@ -28,6 +30,12 @@ export default () => {
             acSelected( state ) {
                 return state.acSelected;
             },
+            ckOne( state ) {
+                return state.ckOne;
+            },
+            ckTwo( state ) {
+                return state.ckTwo;
+            },
             faculties( state ) {
                 return state.faculties;
             },
@@ -41,6 +49,12 @@ export default () => {
             },
             setAcSelected( state, acSelected ) {
                 state.acSelected = acSelected;
+            },
+            setCkOne( state, ckOne ) {
+                state.ckOne = ckOne;
+            },
+            setCkTwo( state, ckTwo ) {
+                state.ckTwo = ckTwo;
             },
             setFaculties( state, faculties ) {
                 state.faculties = faculties;
@@ -70,6 +84,12 @@ export default () => {
             },
             setAcSelected( { commit }, acSelected ) {
                 commit( 'setAcSelected', acSelected );
+            },
+            setCkOne( { commit }, ckOne ) {
+                commit( 'setCkOne', ckOne );
+            },
+            setCkTwo( { commit }, ckTwo ) {
+                commit( 'setCkTwo', ckTwo );
             },
             fetchFaculties( { commit }, payload ) {
                 // return promise in order to wait for resolve before proceed in router.onReady and router.beforeResolve
