@@ -4,6 +4,8 @@ import VueRouter from "vue-router";
 Vue.use( VueRouter );
 
 function createRouter( store ) {
+    let Apollo;
+    let AutoC;
     let Page404;
     let Contacts;
     let Guide;
@@ -17,6 +19,8 @@ function createRouter( store ) {
     let Search;
 
     if ( isSSR ) {
+        Apollo = isBrowser ? () => System.import( './routes/lab/child-routes/Apollo' ) : require( './routes/lab/child-routes/Apollo' ).default;
+        AutoC = isBrowser ? () => System.import( './routes/lab/child-routes/AutoC' ) : require( './routes/lab/child-routes/AutoC' ).default;
         Page404 = isBrowser ? () => System.import( './routes/404/Page404' ) : require( './routes/404/Page404' ).default;
         Contacts = isBrowser ? () => System.import( './routes/contacts/Contacts' ) : require( './routes/contacts/Contacts' ).default;
         Guide = isBrowser ? () => System.import( './routes/guide/Guide' ) : require( './routes/guide/Guide' ).default;
@@ -29,6 +33,8 @@ function createRouter( store ) {
         Rules = isBrowser ? () => System.import( './routes/rules/Rules' ) : require( './routes/rules/Rules' ).default;
         Search = isBrowser ? () => System.import( './routes/search/Search' ) : require( './routes/search/Search' ).default;
     } else {
+        Apollo = () => System.import( './routes/lab/child-routes/Apollo' );
+        AutoC = () => System.import( './routes/lab/child-routes/AutoC' );
         Page404 = () => System.import( './routes/404/Page404' );
         Contacts = () => System.import( './routes/contacts/Contacts' );
         Guide = () => System.import( './routes/guide/Guide' );
@@ -84,7 +90,25 @@ function createRouter( store ) {
                 component: Lab,
                 meta: {
                     title: 'Лаборатория'
-                }
+                },
+                children: [
+                    {
+                        path: 'apollo',
+                        name: 'apollo',
+                        component: Apollo,
+                        meta: {
+                            title: 'Аполо'
+                        }
+                    },
+                    {
+                        path: 'auto',
+                        name: 'auto',
+                        component: AutoC,
+                        meta: {
+                            title: 'Аутокомплийт'
+                        }
+                    }
+                ]
             },
             {
                 path: '/clio/login',
