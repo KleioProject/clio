@@ -6,7 +6,9 @@
         <hr>
         <h2>Autocomplete</h2>
         <autocomplete :results='acFilteredResults' v-model='acSelected' @query='doQuery' :placeholder='"Търси тук"' @clearQuery="clearQuery" :markerDiameter="markerDiameter"></autocomplete>
-        <p v-if="acSelected">{{acSelected.label}}</p>
+        <p v-if="acSelected">{{acSelected.label}}
+            <span @click="removeSelected">X</span>
+        </p>
     </div>
 </template>
 
@@ -22,10 +24,10 @@ export default {
         action: 'fetchFaculties'
     },
     beforeMount: function() {
-       // console.log(`beforeMount method of Lab called from ${isBrowser ? 'client' : 'server'}`);
+        // console.log(`beforeMount method of Lab called from ${isBrowser ? 'client' : 'server'}`);
     },
     computed: {
-        ...mapGetters(['faculties', 'acResults', 'acSelected' , 'acFilteredResults', 'markerDiameter']),
+        ...mapGetters(['faculties', 'acResults', 'acSelected', 'acFilteredResults', 'markerDiameter']),
         acSelected: {
             get() {
                 return this.$store.getters.acSelected;
@@ -40,8 +42,10 @@ export default {
             this.$store.dispatch('setAcResults', []);
         },
         doQuery(value) {
-            console.log(`Lab - autocomplete input: ${value}`);
             this.$store.dispatch('doAcQuery', value);
+        },
+        removeSelected() {
+            this.$store.dispatch('setAcSelected', null);
         }
     }
 }

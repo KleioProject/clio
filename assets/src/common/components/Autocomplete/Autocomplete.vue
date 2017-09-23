@@ -41,21 +41,23 @@ export default {
             }
         },
         browseOptions() {
+            const sel = this.$refs.customSelect;
+            const input = this.$refs.inputEl;
             switch (event.key) {
                 case 'ArrowDown':
                     if (this.option === -1) {
-                        this.$refs.customSelect.scrollTop = 0;
+                        sel.scrollTop = 0;
                     }
                     if (this.results.length > 0) {
                         if (this.option === this.results.length - 1) {
                             this.option = 0;
-                            this.$refs.customSelect.scrollTop = 0;
+                            sel.scrollTop = 0;
                         } else {
                             this.option++;
                         }
                         this.selected = this.results[this.option];
                         if (this.option >= this.getNumberOfOptionsToFit() && this.option < this.results.length) {
-                            this.$refs.customSelect.scrollTop += this.$refs.customSelect.children[this.option].clientHeight;
+                            sel.scrollTop += sel.children[this.option].clientHeight;
                         }
                         this.setMarker();
                     }
@@ -65,25 +67,25 @@ export default {
                         if (this.option === 0) {
                             this.option = -1;
                             this.selected = { id: null };
-                            if (this.$refs.inputEl.setSelectionRange && isBrowser) {
-                                const length = this.$refs.inputEl.value.length * 2;
+                            if (input.setSelectionRange && isBrowser) {
+                                const length = input.value.length * 2;
                                 // Timeout seems to be required for Blink
                                 setTimeout(() => {
-                                    this.$refs.inputEl.setSelectionRange(length, length);
+                                    input.setSelectionRange(length, length);
                                 }, 1);
                             } else {
                                 // As a fallback, replace the contents with itself
                                 // Doesn't work in Chrome, but Chrome supports setSelectionRange
-                                this.$refs.inputEl.value = this.$refs.inputEl.value;
+                                input.value = input.value;
                             }
                         } else if (this.option > 0) {
                             this.option--;
                             this.selected = this.results[this.option];
                         }
                         if (this.option > this.getNumberOfOptionsToFit()) {
-                            this.$refs.customSelect.scrollTop -= this.$refs.customSelect.children[this.option].clientHeight;
+                            sel.scrollTop -= sel.children[this.option].clientHeight;
                         } else {
-                            this.$refs.customSelect.scrollTop = 0;
+                            sel.scrollTop = 0;
                         }
                         this.setMarker();
                     }
@@ -104,11 +106,12 @@ export default {
             }
         },
         getNumberOfOptionsToFit() {
+            const sel = this.$refs.customSelect;
             let optionsToFit = 0;
             let sumOfChildrenHeights = 0;
-            for (let i = 0; i < this.$refs.customSelect.children.length; i++) {
-                if (sumOfChildrenHeights + this.$refs.customSelect.children[i].clientHeight < 100) {
-                    sumOfChildrenHeights += this.$refs.customSelect.children[i].clientHeight;
+            for (let i = 0; i < sel.children.length; i++) {
+                if (sumOfChildrenHeights + sel.children[i].clientHeight < 100) {
+                    sumOfChildrenHeights += sel.children[i].clientHeight;
                     optionsToFit++;
                 } else {
                     break;
@@ -121,16 +124,18 @@ export default {
             this.reset();
         },
         onMarkerDrag(event) {
+            const sel = this.$refs.customSelect;
+            const marker = this.$refs.marker;
             const delta = this.drag.startY - event.clientY;
             if (delta !== 0) {
                 this.drag.startY = event.clientY;
                 if (delta < this.markerDiameter && delta > -this.markerDiameter) {
-                    if ((parseInt(this.$refs.marker.style.top) + this.markerDiameter - delta) <= this.$refs.customSelect.clientHeight && (parseInt(this.$refs.marker.style.top) - delta) >= 0) {
-                        this.$refs.marker.style.top = (parseInt(this.$refs.marker.style.top) - delta) + 'px';
+                    if ((parseInt(marker.style.top) + this.markerDiameter - delta) <= sel.clientHeight && (parseInt(marker.style.top) - delta) >= 0) {
+                        marker.style.top = (parseInt(marker.style.top) - delta) + 'px';
                     } else if (delta < 0) {
-                        this.$refs.marker.style.top = (this.$refs.customSelect.clientHeight - this.markerDiameter) + 'px';
+                        marker.style.top = (sel.clientHeight - this.markerDiameter) + 'px';
                     } else if (delta > 0) {
-                        this.$refs.marker.style.top = 0 + 'px';
+                        marker.style.top = 0 + 'px';
                     }
                     this.setScrollTop(delta);
                 }
@@ -140,12 +145,14 @@ export default {
             this.drag.pauseOnScroll = false;
         },
         onMarkerDragstart(event) {
-            const ghost = this.$refs.marker.cloneNode(true);
-            ghost.style.display = 'none';
-            document.body.appendChild(ghost);
-            event.dataTransfer.setDragImage(ghost, 0, 0);
-            this.drag.startY = event.clientY;
-            this.drag.pauseOnScroll = true;
+            if (isBrowser) {
+                const ghost = this.$refs.marker.cloneNode(true);
+                ghost.style.display = 'none';
+                document.body.appendChild(ghost);
+                event.dataTransfer.setDragImage(ghost, 0, 0);
+                this.drag.startY = event.clientY;
+                this.drag.pauseOnScroll = true;
+            }
         },
         onMouseenter(index) {
             this.selected = this.results[index];
@@ -173,12 +180,15 @@ export default {
             this.selected = { id: null };
         },
         setMarker() {
-            const offset = (this.$refs.customSelect.scrollTop / (this.$refs.customSelect.scrollHeight - this.$refs.customSelect.clientHeight)) * (this.$refs.customSelect.clientHeight - this.markerDiameter);
+            const sel = this.$refs.customSelect;
+            const offset = (sel.scrollTop / (sel.scrollHeight - sel.clientHeight)) * (sel.clientHeight - this.markerDiameter);
             this.$refs.marker.style.top = `${offset}px`;
         },
         setScrollTop(delta) {
-            const offset = Math.floor(((parseInt(this.$refs.marker.style.top) + (delta >= 0 && parseInt(this.$refs.marker.style.top) === 0 ? 0 : this.markerDiameter)) / this.$refs.customSelect.clientHeight) * (this.$refs.customSelect.scrollHeight - this.$refs.customSelect.clientHeight));
-            this.$refs.customSelect.scrollTop = offset;
+            const sel = this.$refs.customSelect;
+            const marker = this.$refs.marker;
+            const offset = Math.floor(((parseInt(marker.style.top) + (delta >= 0 && parseInt(marker.style.top) === 0 ? 0 : this.markerDiameter)) / sel.clientHeight) * (sel.scrollHeight - sel.clientHeight));
+            sel.scrollTop = offset;
         }
     }
 }
