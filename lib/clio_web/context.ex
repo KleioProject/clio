@@ -5,13 +5,16 @@ defmodule ClioWeb.Context do
 
   def init(opts), do: opts
 
-  def call(%{cookies: %{"token" => token}} = conn, _) do
+  def call(%{cookies: %{"token" => token}} = conn, :clio) do
     {:ok, user} = Phoenix.Token.verify(ClioWeb.Endpoint, "The salt bro", token)
-    IO.puts "\nasd\n"
+    IO.puts "asd"
     put_private(conn, :absinthe, %{context: %{current_user: user}})
   end
+
+  def call(%{}, :gql) do
+  end
+
   def call(conn, _) do
-    IO.inspect conn.cookies
     conn
   end
 end
