@@ -1,9 +1,12 @@
 <template>
     <div class="lab-ckeditor-page">
         <h2>CKEditor</h2>
-        <ckeditor v-model="ckOne" :editorId="'ckOne'"></ckeditor>
-        <hr>
-        <ckeditor v-model="ckTwo" :editorId="'ckTwo'"></ckeditor>
+        <p v-if="!showCkOne" @click="showCkOne = true;">{{ckOne}}</p>
+        <ckeditor v-else v-model="ckOne" :editorId="'ckOne'"></ckeditor>
+        <br>
+        <br>
+        <p v-if="!showCkTwo" @click="showCkTwo = true;">{{ckTwo}}</p>
+        <ckeditor v-else v-model="ckTwo" :editorId="'ckTwo'"></ckeditor>
     </div>
 </template>
 
@@ -13,6 +16,12 @@ import { mapGetters } from 'vuex';
 import CKEditor from '../../../common/components/CKEditor/CKEditor';
 
 export default {
+    data() {
+        return {
+            showCkOne: false,
+            showCkTwo: false
+        }
+    },
     components: {
         ckeditor: CKEditor
     },
