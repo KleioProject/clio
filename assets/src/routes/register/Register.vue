@@ -1,6 +1,10 @@
 <template>
     <div class="register-page">
-        <h1>Register</h1>
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12">Register</h1>
+            </div>
+        </div>
     </div>
 </template>
 

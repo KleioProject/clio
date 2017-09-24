@@ -1,7 +1,13 @@
 <template>
     <div class="profile-page">
-        <h1>Profile</h1>
-        <p>{{user}}</p>
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12">Profile</h1>
+                <div class="col-xs-12">
+                    <pre>{{user}}</pre>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

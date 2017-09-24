@@ -1,6 +1,10 @@
 <template>
     <div class="search-page">
-        <h1>Search</h1>
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12">Search</h1>
+            </div>
+        </div>
     </div>
 </template>
 

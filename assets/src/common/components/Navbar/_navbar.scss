@@ -1,4 +1,102 @@
 .navbar-component {
-    padding: 1rem;
-    background: #25ACD2;
+    z-index: 10;
+    background-color: #25ACD2;
+    li a:hover {
+        color: #1b3c46;
+    }
+    .nav-block {
+        z-index: 10;
+        padding: 1rem;
+        background-color: #25ACD2;
+    }
+    .link-item {
+        position: relative;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+    .sub-nav-label {
+        display: block;
+    }
+    .sub-nav {
+        position: absolute;
+        top: 28px;
+        z-index: 10;
+        display: inline-block;
+        max-height: 0;
+        overflow: hidden;
+        background-color: #25acd2;
+        transition: all .5s ease-out;
+        &.sub-nav-open {
+            max-height: 100rem;
+        }
+        .link-item {
+            display: block;
+            padding: 0 5px 5px;
+        }
+    }
+    .responsive-nav-header {
+        display: none;
+        height: 40px;
+        color: white;
+        background-color: #25acd2;
+        .nav-toggle {
+            float: right;
+            margin-right: 4px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+    @media (max-width: 1024px) {
+        .nav-block {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 0;
+            max-width: none;
+            padding: 0;
+            overflow: hidden;
+            transition: all .5s ease-out;
+            &.open {
+                width: 100%;
+            }
+        }
+        .responsive-nav-header {
+            display: block;
+        }
+        .sub-nav {
+            position: relative;
+            top: 0;
+            display: block;
+            padding-left: 1rem;
+            background-color: #2f97b5;
+            .link-item {
+                padding: 0 10px;
+                margin: 0;
+                &:first-child {
+                    padding-top: 1rem;
+                }
+                &:last-child {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+        .link-item {
+            display: block;
+            margin: 0.5rem 0;
+            &:first-child {
+                padding-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 3rem;
+            }
+            &:hover {
+                background-color: #2f97b5;
+            }
+            a {
+                display: block;
+                width: 100%;
+                padding: 1rem 0 1rem 2rem;
+            }
+        }
+    }
 }

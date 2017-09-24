@@ -47,6 +47,10 @@ div {
   &.no-pad-right {
     padding-right: 0 !important;
   }
+  &.no-pad {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 @mixin generateGrid($breakpointSymbol) {

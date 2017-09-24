@@ -12,7 +12,7 @@ li {
         text-transform: uppercase;
         text-decoration: none;
         &:hover {
-            color: #5A5A7E;
+            color: #317082;
             text-decoration: none;
         }
     }
@@ -20,15 +20,15 @@ li {
 
 .link-active {
     a {
-        color: #010125;
+        color: #317082;
         text-decoration: none;
     }
 }
 
 .slide-routes-leave-active {
     opacity: 0;
-    transition: opacity 1s ease;
-    animation: routes-slide-out 1s ease-out forwards;
+    transition: opacity .5s ease-out;
+    animation: routes-slide-out .5s ease-out forwards;
 }
 
 .slide-routes-leave {
@@ -48,6 +48,7 @@ li {
         transform: translateY(-30px);
     }
 }
+
 @keyframes routes-slide-in {
     0% {
         transform: translateY(-30px);

@@ -1,10 +1,22 @@
 <template>
     <div class="login-page">
-        <h1>Login</h1>
-        <input type="text" placeholder="email" v-model="email">
-        <input type="text" placeholder="password" v-model="password">
-        <button @click="login">Login</button>
-        <button @click="getFaculties">Get faculties</button>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Login</h1>
+                    <div class="row">
+                        <div class="col-xs-12 no-pad">
+                            <input type="text" placeholder="email" v-model="email">
+                            <input type="text" placeholder="password" v-model="password">
+                        </div>
+                        <div class="col-xs-12 no-pad">
+                            <button @click="login">Login</button>
+                            <button @click="getFaculties">Get faculties</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

@@ -1,0 +1,17 @@
+button {
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1.6rem;
+    cursor: pointer;
+    background-color: #3a9e3a;
+    border: none;
+    outline: none;
+    transition: transform .1s ease-out;
+    &:hover {
+        transform: scale(1.02);
+    }
+    &:active {
+        transform: scale(0.98);
+    }
+}
