@@ -8,6 +8,7 @@ function createRouter( store ) {
     let AutoC;
     let Page404;
     let Contacts;
+    let Drop;
     let Editor;
     let Guide;
     let Home;
@@ -24,6 +25,7 @@ function createRouter( store ) {
         AutoC = isBrowser ? () => System.import( './routes/lab/child-routes/AutoC' ) : require( './routes/lab/child-routes/AutoC' ).default;
         Page404 = isBrowser ? () => System.import( './routes/404/Page404' ) : require( './routes/404/Page404' ).default;
         Contacts = isBrowser ? () => System.import( './routes/contacts/Contacts' ) : require( './routes/contacts/Contacts' ).default;
+        Drop = isBrowser ? () => System.import( './routes/lab/child-routes/Drop' ) : require( './routes/lab/child-routes/Drop' ).default;
         Editor = isBrowser ? () => System.import( './routes/lab/child-routes/Editor' ) : require( './routes/lab/child-routes/Editor' ).default;
         Guide = isBrowser ? () => System.import( './routes/guide/Guide' ) : require( './routes/guide/Guide' ).default;
         Home = isBrowser ? () => System.import( './routes/home/Home' ) : require( './routes/home/Home' ).default;
@@ -39,6 +41,7 @@ function createRouter( store ) {
         AutoC = () => System.import( './routes/lab/child-routes/AutoC' );
         Page404 = () => System.import( './routes/404/Page404' );
         Contacts = () => System.import( './routes/contacts/Contacts' );
+        Drop = () => System.import( './routes/lab/child-routes/Drop' );
         Editor = () => System.import( './routes/lab/child-routes/Editor' );
         Guide = () => System.import( './routes/guide/Guide' );
         Home = () => System.import( './routes/home/Home' );
@@ -109,6 +112,14 @@ function createRouter( store ) {
                         component: AutoC,
                         meta: {
                             title: 'Аутокомплийт'
+                        }
+                    },
+                    {
+                        path: 'drop',
+                        name: 'drop',
+                        component: Drop,
+                        meta: {
+                            title: 'Драг анд дроп зона'
                         }
                     },
                     {

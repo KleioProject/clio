@@ -46,6 +46,9 @@
                     <router-link to="/clio/lab/editor" tag="li" class="link-item" active-class="link-active">
                         <a>Едитор</a>
                     </router-link>
+                    <router-link to="/clio/lab/drop" tag="li" class="link-item" active-class="link-active">
+                        <a>Дроп</a>
+                    </router-link>
                 </ul>
             </li>
         </ul>

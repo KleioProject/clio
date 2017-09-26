@@ -7,9 +7,7 @@ export default () => {
             popupBody: 'Popup Headline',
             popupCancel: null,
             popupHeadline: 'Popup body text goes here',
-            popupProceed: function () {
-                console.log( 'Proceeding.' );
-            },
+            popupProceed: null,
             popupProceedLabel: 'Proceed',
             showPopup: false
         },
@@ -64,6 +62,7 @@ export default () => {
                 commit( 'setPopupHeadline', popupHeadline );
             },
             setPopupProceed( { commit }, popupProceed ) {
+                console.log( popupProceed );
                 commit( 'setPopupProceed', popupProceed );
             },
             setPopupProceedLabel( { commit }, popupProceedLabel ) {

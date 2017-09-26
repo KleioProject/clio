@@ -11,6 +11,7 @@ export default () => {
             acSelected: null,
             ckOne: 'CK One',
             ckTwo: 'CK Two',
+            dropFiles: [],
             faculties: [],
             markerDiameter: 22
         },
@@ -36,6 +37,9 @@ export default () => {
             ckTwo( state ) {
                 return state.ckTwo;
             },
+            dropFiles( state ) {
+                return state.dropFiles;
+            },
             faculties( state ) {
                 return state.faculties;
             },
@@ -55,6 +59,9 @@ export default () => {
             },
             setCkTwo( state, ckTwo ) {
                 state.ckTwo = ckTwo;
+            },
+            setDropFiles( state, dropFiles ) {
+                state.dropFiles = dropFiles;
             },
             setFaculties( state, faculties ) {
                 state.faculties = faculties;
@@ -90,6 +97,9 @@ export default () => {
             },
             setCkTwo( { commit }, ckTwo ) {
                 commit( 'setCkTwo', ckTwo );
+            },
+            setDropFiles( { commit }, dropFiles ) {
+                commit( 'setDropFiles', dropFiles );
             },
             fetchFaculties( { commit }, payload ) {
                 // return promise in order to wait for resolve before proceed in router.onReady and router.beforeResolve

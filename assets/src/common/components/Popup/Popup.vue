@@ -26,6 +26,7 @@ export default {
             this.$store.dispatch('setPopupHeadline', '');
             this.$store.dispatch('setPopupCancel', null);
             this.$store.dispatch('setPopupProceed', null);
+            this.$store.dispatch('setPopupProceedLabel', '');
         },
         close(event) {
             event.stopPropagation();
@@ -41,9 +42,7 @@ export default {
         },
         proceed(event) {
             event.stopPropagation();
-            if (typeof this.popupProceed === 'function') {
-                this.popupProceed();
-            }
+            this.popupProceed();
             this.clearPopup();
         }
     }
