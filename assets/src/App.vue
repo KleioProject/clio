@@ -5,7 +5,7 @@
             <router-view></router-view>
         </transition>
         <transition name="slide-routes" mode="out-in">
-            <message v-if="showMessage"></message>
+            <popup v-if="showPopup"></popup>
         </transition>
         <transition name="message" mode="in-out">
             <messages v-if="messages.length > 0"></messages>
@@ -17,7 +17,7 @@
 import { mapGetters } from 'vuex';
 
 import Navbar from "./common/components/Navbar/Navbar";
-import Message from "./common/components/Message/Message";
+import Popup from "./common/components/Popup/Popup";
 import Messages from "./common/components/Messages/Messages"
 
 /* console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
@@ -30,9 +30,9 @@ console.log(`isSSR: ${isSSR}`); */
 
 export default {
     components: {
+        messages: Messages,
         navbar: Navbar,
-        message: Message,
-        messages: Messages
+        popup: Popup
     },
     beforeCreate: function() {
         //  console.log(`beforeCreate method of App called from ${isBrowser ? 'client' : 'server'}`);
@@ -41,7 +41,7 @@ export default {
         // console.log(`beforeMount method of App called from ${isBrowser ? 'client' : 'server'}`);
     },
     computed: {
-        ...mapGetters(['showMessage', 'messages'])
+        ...mapGetters(['showPopup', 'messages'])
     },
 }
 </script>
