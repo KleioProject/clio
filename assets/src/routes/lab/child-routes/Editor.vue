@@ -1,11 +1,15 @@
 <template>
     <div class="lab-ckeditor-page">
         <h2>CKEditor</h2>
-        <p v-if="!showCkOne" @click="showCkOne = true;">{{ckOne}}</p>
+        <p v-if="!showCkOne">{{ckOne}}
+            <span class="icon-edit" @click="showCkOne = true;"></span>
+        </p>
         <ckeditor v-else v-model="ckOne" :editorId="'ckOne'"></ckeditor>
         <br>
         <br>
-        <p v-if="!showCkTwo" @click="showCkTwo = true;">{{ckTwo}}</p>
+        <p v-if="!showCkTwo">{{ckTwo}}
+            <span class="icon-edit" @click="showCkTwo = true;"></span>
+        </p>
         <ckeditor v-else v-model="ckTwo" :editorId="'ckTwo'"></ckeditor>
     </div>
 </template>

@@ -2,6 +2,8 @@
 @import '../node_modules/animate.css/animate.css';
 @import './libs/sassgrid/grid.scss';
 // Partials:
+@import './partials/variables.scss';
+@import './partials/clio.scss';
 @import './partials/fonts.scss';
 @import './partials/basic.scss';
 @import './partials/vue-specific.scss';

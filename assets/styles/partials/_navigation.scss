@@ -12,7 +12,7 @@ li {
         text-transform: uppercase;
         text-decoration: none;
         &:hover {
-            color: #317082;
+            color: $link-active;
             text-decoration: none;
         }
     }
@@ -20,7 +20,7 @@ li {
 
 .link-active {
     a {
-        color: #317082;
+        color: $link-active;
         text-decoration: none;
     }
 }

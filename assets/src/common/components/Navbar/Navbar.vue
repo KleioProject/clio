@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-component">
         <div class="responsive-nav-header">
-            <span class="nav-toggle" @click="toggleNav">X</span>
+            <span class="nav-toggle icon-menu" @click="toggleNav"></span>
         </div>
         <ul class="nav-block container" :class="{open: opened}" @click="closeNav">
             <router-link to="/clio" tag="li" class="link-item" active-class="link-active" exact>

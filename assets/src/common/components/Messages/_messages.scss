@@ -3,14 +3,24 @@
     bottom: 0;
     right: 0;
     width: 25%;
-    min-width: 260px;
+    min-width: 28rem;
 }
 
 .message-component {
+    position: relative;
     padding: 1rem 2rem;
-    background-color: #ffc6c6;
+    background-color: $warn;
     &.success {
-        background-color: #bbf7bb;
+        background-color: $success;
+    }
+    .date-time {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        font-size: 1.2rem;
+        .time {
+            font-style: italic;
+        }
     }
 }
 

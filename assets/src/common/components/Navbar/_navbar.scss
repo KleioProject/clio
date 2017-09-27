@@ -1,17 +1,19 @@
 .navbar-component {
     z-index: 10;
-    background-color: #25ACD2;
+    background-color: $bkg-dark;
     li a:hover {
-        color: #1b3c46;
+        color: $link-active;
     }
     .nav-block {
         z-index: 10;
+        height: 6rem;
         padding: 1rem;
-        background-color: #25ACD2;
+        background-color: $bkg-dark;
     }
     .link-item {
         position: relative;
         vertical-align: middle;
+        padding: 1rem 0.5rem;
         cursor: pointer;
     }
     .sub-nav-label {
@@ -20,25 +22,29 @@
     .sub-nav {
         position: absolute;
         top: 28px;
+        left: -0.5rem;
         z-index: 10;
         display: inline-block;
         max-height: 0;
+        margin-top: 2rem;
+        padding-left: 1rem;
         overflow: hidden;
-        background-color: #25acd2;
-        transition: all .5s ease-out;
+        background-color: $bkg-dark;
+        transition: all .3s ease-out;
         &.sub-nav-open {
-            max-height: 100rem;
+            max-height: 20rem;
+            overflow: initial;
         }
         .link-item {
             display: block;
-            padding: 0 5px 5px;
+            padding: 1rem 0;
         }
     }
     .responsive-nav-header {
         display: none;
         height: 40px;
         color: white;
-        background-color: #25acd2;
+        background-color: $bkg-dark;
         .nav-toggle {
             float: right;
             margin-right: 4px;
@@ -52,10 +58,11 @@
             top: 40px;
             right: 0;
             width: 0;
+            height: auto;
             max-width: none;
             padding: 0;
             overflow: hidden;
-            transition: all .5s ease-out;
+            transition: all .4s ease-out;
             &.open {
                 width: 100%;
             }
@@ -67,8 +74,9 @@
             position: relative;
             top: 0;
             display: block;
+            margin-top: 0;
             padding-left: 1rem;
-            background-color: #2f97b5;
+            background-color: $nav-hover;
             .link-item {
                 padding: 0 10px;
                 margin: 0;
@@ -82,7 +90,7 @@
         }
         .link-item {
             display: block;
-            margin: 0.5rem 0;
+            padding: 0;
             &:first-child {
                 padding-top: 0;
             }
@@ -90,7 +98,7 @@
                 margin-bottom: 3rem;
             }
             &:hover {
-                background-color: #2f97b5;
+                background-color: $nav-hover;
             }
             a {
                 display: block;

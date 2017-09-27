@@ -1,8 +1,8 @@
 <template>
     <div class="message-component" :class="{success: message.isSuccess}">
-        <h3>{{message.headline}}</h3>
+        <h3 :class="{'icon-ok': message.isSuccess, 'icon-attention': !message.isSuccess}">{{message.headline}}</h3>
         <p>{{message.body}}</p>
-        <span>{{new Date(message.timestamp)}}</span>
+        <div class="date-time" v-html="$options.filters.datetime(message.timestamp,'time')"></div>
         <button @click="close">Close</button>
     </div>
 </template>
