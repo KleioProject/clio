@@ -1,13 +1,13 @@
 <template>
-    <div class="autocomplete-component">
-        <div class="autocomplete-input-container">
-            <input class="autocomplete-input" type="text" @input="emitQuery" :placeholder="placeholder" ref="inputEl" @keydown="browseOptions">
-            <ul class="autocomplete-results-container" @scroll="onScroll" ref="customSelect" v-if="results.length > 0" @mouseleave="onSelectMouseleave()">
-                <li class="autocomplete-option" @mouseenter="onMouseenter(index)" @mouseleave="onMouseleave()" @click="onClick(index)" :class="{'selected': result.id === selected.id}" v-for="(result, index) in results" :key="result.id">{{result.label}}</li>
+    <div class="dropdown-component">
+        <div class="dropdown-input-container">
+            <input class="dropdown-input" type="text" @input="filterOptions" :placeholder="placeholder" ref="inputEl" @keydown="browseOptions" @focus="openOptions">
+            <ul class="dropdown-options-container" :class="{'dropdown-options-open': showOptions}" @scroll="onScroll" ref="customSelect" v-if="options.length > 0" @mouseleave="onSelectMouseleave()">
+                <li class="dropdown-option" @mouseenter="onMouseenter(index)" @mouseleave="onMouseleave()" @click="onClick(index)" :class="{'selected': opt.id === selected.id}" v-for="(opt, index) in options" :key="opt.id">{{opt.label}}</li>
             </ul>
-            <div class="scroller" v-if="results.length > 0">
+            <div class="scroller" v-if="options.length > 0" :class="{'dropdown-scroller-open': showOptions}">
                 <div class="marker-container">
-                    <div class="marker" ref="marker" draggable="draggable" @dragstart="onMarkerDragstart" @drag="onMarkerDrag" @dragend="onMarkerDragend"></div>
+                    <div class="marker" :class="{'dropdown-marker-shown': showOptions}" ref="marker" draggable="draggable" @dragstart="onMarkerDragstart" @drag="onMarkerDrag" @dragend="onMarkerDragend"></div>
                 </div>
             </div>
         </div>
@@ -16,15 +16,17 @@
 
 <script>
 export default {
-    props: ['value', 'results', 'placeholder', 'markerDiameter'],
+    props: ['value', 'opts', 'placeholder', 'markerDiameter'],
     data: function() {
         return {
             drag: {
                 startY: null,
                 pauseOnScroll: false
             },
+            filter: '',
             option: -1,
             selected: { id: null, label: '' },
+            showOptions: false,
             timeout: 200
         }
     },
@@ -34,10 +36,20 @@ export default {
     beforeDestroy: function() {
         document.removeEventListener('click', this.bodyClickHandler);
     },
+    computed: {
+        options: function() {
+            return this.opts.filter((option) => {
+                return (option.label.toLowerCase()).indexOf(this.filter.toLowerCase()) > -1;
+            });
+        }
+    },
     methods: {
         bodyClickHandler(event) {
             if (!this.$el.contains(event.target)) {
-                this.reset();
+                this.showOptions = false;
+                if (this.selected.id === null) {
+                    this.$refs.inputEl.value = this.filter = '';
+                }
             }
         },
         browseOptions() {
@@ -48,22 +60,22 @@ export default {
                     if (this.option === -1) {
                         sel.scrollTop = 0;
                     }
-                    if (this.results.length > 0) {
-                        if (this.option === this.results.length - 1) {
+                    if (this.options.length > 0) {
+                        if (this.option === this.options.length - 1) {
                             this.option = 0;
                             sel.scrollTop = 0;
                         } else {
                             this.option++;
                         }
-                        this.selected = this.results[this.option];
-                        if (this.option >= this.getNumberOfOptionsToFit() && this.option < this.results.length) {
+                        this.selected = this.options[this.option];
+                        if (this.option >= this.getNumberOfOptionsToFit() && this.option < this.options.length) {
                             sel.scrollTop += sel.children[this.option].clientHeight;
                         }
                         this.setMarker();
                     }
                     break;
                 case 'ArrowUp':
-                    if (this.results.length > 0) {
+                    if (this.options.length > 0) {
                         if (this.option === 0) {
                             this.option = -1;
                             this.selected = { id: null };
@@ -80,7 +92,7 @@ export default {
                             }
                         } else if (this.option > 0) {
                             this.option--;
-                            this.selected = this.results[this.option];
+                            this.selected = this.options[this.option];
                         }
                         if (this.option > this.getNumberOfOptionsToFit()) {
                             sel.scrollTop -= sel.children[this.option].clientHeight;
@@ -93,17 +105,18 @@ export default {
                 case 'Enter':
                     if (this.option > -1) {
                         this.$emit('input', this.selected);
-                        this.reset();
+                        this.$refs.inputEl.value = this.selected.label;
+                        this.showOptions = false;
                     }
                     break;
             }
         },
-        emitQuery(event) {
-            if (event.target.value === '') {
-                this.reset();
-            } else {
-                this.$emit('query', event.target.value);
-            }
+        filterOptions(event) {
+            this.option = -1;
+            this.selected = { id: null };
+            this.$emit('input', this.selected);
+            this.showOptions = true;
+            this.filter = event.target.value;
         },
         getNumberOfOptionsToFit() {
             const sel = this.$refs.customSelect;
@@ -120,8 +133,9 @@ export default {
             return optionsToFit;
         },
         onClick(index) {
-            this.$emit('input', this.results[index]);
-            this.reset();
+            this.$emit('input', this.options[index]);
+            this.$refs.inputEl.value = this.selected.label;
+            this.showOptions = false;
         },
         onMarkerDrag(event) {
             const sel = this.$refs.customSelect;
@@ -155,29 +169,30 @@ export default {
             }
         },
         onMouseenter(index) {
-            this.selected = this.results[index];
+            this.selected = this.options[index];
             this.option = index;
             this.setMarker();
         },
         onMouseleave() {
-            this.selected = { id: null };
-            this.option = -1;
             this.setMarker();
         },
         onSelectMouseleave() {
-            this.selected = { id: null };
-            this.option = -1;
+            this.selected = this.value;
+            let index = -1;
+            for (let i = 0; i < this.options.length; i++) {
+                if (this.selected.id === this.options[i].id) {
+                    index = i;
+                }
+            }
+            this.option = index;
         },
         onScroll(event) {
             if (!this.drag.pauseOnScroll) {
                 this.setMarker();
             }
         },
-        reset() {
-            this.$emit('reset');
-            this.$refs.inputEl.value = '';
-            this.option = -1;
-            this.selected = { id: null };
+        openOptions() {
+            this.showOptions = true;
         },
         setMarker() {
             const sel = this.$refs.customSelect;

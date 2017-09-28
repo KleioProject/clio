@@ -38,9 +38,14 @@ export default () => {
         },
         actions: {
             login( { commit }, payload ) {
-                Vue.axios.post( `${ process.env.API_URL }account/login`, payload )
+                const credentials = {
+                    email: payload.email,
+                    password: payload.password,
+                }
+                Vue.axios.post( `${ process.env.API_URL }account/login`, credentials )
                     .then( function ( response ) {
                         commit( 'setUser', response.data );
+                        payload.router.push( '/clio/profile' );
                     } )
                     .catch( function ( error ) {
                         commit( 'setUser', null );

@@ -10,6 +10,11 @@
     cursor: pointer;
 }
 
+[class^="icon-"]:hover,
+[class*=" icon-"]:hover {
+    color: $link-active;
+}
+
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
     font-family: "clio";

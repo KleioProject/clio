@@ -1,9 +1,13 @@
 <template>
     <div class="message-component" :class="{success: message.isSuccess}">
-        <h3 :class="{'icon-ok': message.isSuccess, 'icon-attention': !message.isSuccess}">{{message.headline}}</h3>
-        <p>{{message.body}}</p>
+        <div class="tcenter">
+            <h3 :class="{'icon-ok': message.isSuccess, 'icon-attention': !message.isSuccess}">{{message.headline}}</h3>
+            <p class="tcenter">{{message.body}}</p>
+        </div>
         <div class="date-time" v-html="$options.filters.datetime(message.timestamp,'time')"></div>
-        <button @click="close">Close</button>
+        <div class="button-group">
+            <button @click="close">Close</button>
+        </div>
     </div>
 </template>
 

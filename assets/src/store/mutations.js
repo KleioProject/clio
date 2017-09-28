@@ -1,4 +1,8 @@
 export default () => {
-    return {};
+    return {
+        setFaculties( state, faculties ) {
+            state.faculties = faculties;
+        }
+    };
 };
 

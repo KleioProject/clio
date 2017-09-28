@@ -9,6 +9,7 @@ import createLabModule from './modules/lab-module';
 import createLoginModule from './modules/login-module';
 import createMessageModule from './modules/message-module';
 import createPopupModule from './modules/popup-module';
+import createRegisterModule from './modules/register-module';
 
 Vue.use( Vuex );
 
@@ -22,7 +23,8 @@ function createStore() {
             labModule: createLabModule(),
             loginModule: createLoginModule(),
             messageModule: createMessageModule(),
-            popupModule: createPopupModule()
+            popupModule: createPopupModule(),
+            registerModule: createRegisterModule()
         }
     } );
 };

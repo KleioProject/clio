@@ -1,5 +1,5 @@
 $markerDiameter: 22px;
-.autocomplete-component {
+.dropdown-component {
     display: inline-block;
     width: 100%;
     input {
@@ -11,7 +11,7 @@ $markerDiameter: 22px;
         color: #5D5959;
         font-size: 1.6rem;
     }
-    .results {
+    .options {
         position: absolute;
         top: 40px;
         left: 0;
@@ -30,20 +30,24 @@ $markerDiameter: 22px;
             }
         }
     }
-    .autocomplete-input-container {
+    .dropdown-input-container {
         position: relative;
         width: 100%;
-        .autocomplete-results-container {
+        .dropdown-options-container {
             position: absolute;
             top: 5rem;
             left: 0;
             width: 100%;
-            height: 100px;
+            height: 0;
             overflow: auto;
             background-color: #eee;
+            transition: height .2s ease-out;
+            &.dropdown-options-open {
+                height: 10rem;
+            }
         }
     }
-    .autocomplete-option {
+    .dropdown-option {
         padding: 0.3rem 1rem;
         cursor: pointer;
         &.selected {
@@ -56,8 +60,12 @@ $markerDiameter: 22px;
         top: 5rem;
         right: 0;
         width: $markerDiameter;
-        height: 100px;
+        height: 0;
         background-color: white;
+        transition: height .2s ease-out;
+        &.dropdown-scroller-open {
+            height: 10rem;
+        }
     }
     .marker-container {
         position: relative;
@@ -66,11 +74,15 @@ $markerDiameter: 22px;
         border-right: 1px solid #eeeeee;
         .marker {
             position: absolute;
+            display: none;
             width: 100%;
             height: $markerDiameter;
             background-color: #25ACD2;
             border-radius: 50%;
             cursor: pointer;
+            &.dropdown-marker-shown {
+                display: inline-block;
+            }
         }
     }
 }

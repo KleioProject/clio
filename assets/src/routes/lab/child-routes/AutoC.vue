@@ -1,9 +1,9 @@
 <template>
     <div class="lab-autoc-page">
         <h2>Autocomplete</h2>
-        <autocomplete :results='acFilteredResults' v-model='acSelected' @query='doQuery' :placeholder='"Търси тук"' @clearQuery="clearQuery" :markerDiameter="markerDiameter"></autocomplete>
+        <autocomplete :results='acFilteredResults' v-model='acSelected' @query='doQuery' :placeholder='"Търси тук"' @clearQuery="clearQuery" :markerDiameter="markerDiameter" @reset="reset"></autocomplete>
         <p v-if="acSelected">{{acSelected.label}}
-            <span @click="removeSelected">X</span>
+            <span class="icon-cancel" @click="removeSelected"></span>
         </p>
     </div>
 </template>
@@ -39,6 +39,9 @@ export default {
         },
         removeSelected() {
             this.$store.dispatch('setAcSelected', null);
+        },
+        reset() {
+            this.$store.dispatch('setAcResults', []);
         }
     }
 }

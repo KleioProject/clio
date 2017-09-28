@@ -2,16 +2,21 @@
     <div class="login-page">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
-                    <h1>Login</h1>
+                <div class="col-xs-12 no-pad">
+                    <div class="air"></div>
                     <div class="row">
-                        <div class="col-xs-12 no-pad">
-                            <input type="text" placeholder="email" v-model="email">
-                            <input type="text" placeholder="password" v-model="password">
+                        <div class="col-xs-12 col-sm-6">
+                            <input type="text" placeholder="въведете имейл" v-model="email">
                         </div>
-                        <div class="col-xs-12 no-pad">
-                            <button @click="login">Login</button>
-                            <button @click="getFaculties">Get faculties</button>
+                        <div class="col-xs-12 col-sm-6">
+                            <input type="text" placeholder="въведете парола" v-model="password">
+                        </div>
+                    </div>
+                    <div class="air-small"></div>
+                    <div class="row button-group">
+                        <div class="col-xs-12">
+                            <button @click="login">Вход</button>
+                            <router-link to="/clio/register" tag="button" class="link-item" active-class="link-active">Регистрация</router-link>
                         </div>
                     </div>
                 </div>
@@ -49,13 +54,11 @@ export default {
         login() {
             this.$store.dispatch('login', {
                 email: this.email,
-                password: this.password
+                password: this.password,
+                router: this.$router
             });
             this.$store.dispatch('setEmail', '');
             this.$store.dispatch('setPassword', '');
-        },
-        getFaculties() {
-            this.$store.dispatch('fetchFaculties');
         }
     }
 }

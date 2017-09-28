@@ -21,7 +21,7 @@
     }
     .sub-nav {
         position: absolute;
-        top: 28px;
+        top: 2.8rem;
         left: -0.5rem;
         z-index: 10;
         display: inline-block;
@@ -42,20 +42,19 @@
     }
     .responsive-nav-header {
         display: none;
-        height: 40px;
+        height: 4rem;
         color: white;
         background-color: $bkg-dark;
         .nav-toggle {
             float: right;
-            margin-right: 4px;
-            padding: 10px;
+            padding: 1rem;
             cursor: pointer;
         }
     }
     @media (max-width: 1024px) {
         .nav-block {
             position: absolute;
-            top: 40px;
+            top: 4rem;
             right: 0;
             width: 0;
             height: auto;
@@ -78,7 +77,7 @@
             padding-left: 1rem;
             background-color: $nav-hover;
             .link-item {
-                padding: 0 10px;
+                padding: 0 1rem;
                 margin: 0;
                 &:first-child {
                     padding-top: 1rem;

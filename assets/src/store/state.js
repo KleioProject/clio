@@ -1,3 +1,5 @@
 export default () => {
-    return {};
+    return {
+        faculties: []
+    };
 };

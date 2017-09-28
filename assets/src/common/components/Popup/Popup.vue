@@ -1,10 +1,14 @@
 <template>
     <div class="popup-component" @click="closeOnClick">
         <div ref="content" class="popup-content">
-            <h3>{{popupHeadline}}</h3>
-            <p>{{popupBody}}</p>
-            <button @click="close">Close</button>
-            <button v-if="typeof popupProceed === 'function'" @click="proceed">{{popupProceedLabel}}</button>
+            <div class="tcenter">
+                <h3>{{popupHeadline}}</h3>
+                <p class="tcenter">{{popupBody}}</p>
+            </div>
+            <div class="button-group">
+                <button @click="close">Close</button>
+                <button v-if="typeof popupProceed === 'function'" @click="proceed">{{popupProceedLabel}}</button>
+            </div>
         </div>
     </div>
 </template>

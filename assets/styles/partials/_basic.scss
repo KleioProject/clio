@@ -10,6 +10,10 @@ body {
     background-color: $bkg-main;
 }
 
+body {
+    min-height: calc(100vh + 6rem);
+}
+
 div,
 ul,
 li,
@@ -35,4 +39,26 @@ h6 {
 
 p {
     text-align: justify;
+}
+
+.air {
+    display: block;
+    height: 10rem;
+}
+
+.air-small {
+    display: block;
+    height: 5rem;
+}
+
+.tcenter {
+    text-align: center;
+}
+
+.tleft {
+    text-align: left;
+}
+
+.tright {
+    text-align: right;
 }

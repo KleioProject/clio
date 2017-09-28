@@ -8,7 +8,9 @@
                 </div>
                 <div class="col-xs-8">
                     <ul>
-                        <li v-for="file of dropFiles" :key="file.lastModified" @click="removeFile(file)">Name: {{file.name}} Size: {{file.size}}</li>
+                        <li v-for="file of dropFiles" :key="file.lastModified">Name: {{file.name}} Size: {{file.size}}
+                            <span class="icon-cancel" @click="removeFile(file)"></span>
+                        </li>
                     </ul>
                 </div>
             </div>

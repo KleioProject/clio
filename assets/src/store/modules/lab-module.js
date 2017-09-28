@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import gql from 'graphql-tag';
 
-import * as FACULTIES_QUERY from '../../graphql/faculties.graphql';
 import * as LAB_AC_QUERY from '../../graphql/labAcQuery.graphql';
 
 export default () => {
@@ -12,7 +11,6 @@ export default () => {
             ckOne: 'CK One',
             ckTwo: 'CK Two',
             dropFiles: [],
-            faculties: [],
             markerDiameter: 22
         },
         getters: {
@@ -40,9 +38,6 @@ export default () => {
             dropFiles( state ) {
                 return state.dropFiles;
             },
-            faculties( state ) {
-                return state.faculties;
-            },
             markerDiameter( state ) {
                 return state.markerDiameter;
             }
@@ -62,9 +57,6 @@ export default () => {
             },
             setDropFiles( state, dropFiles ) {
                 state.dropFiles = dropFiles;
-            },
-            setFaculties( state, faculties ) {
-                state.faculties = faculties;
             }
         },
         actions: {
@@ -100,34 +92,6 @@ export default () => {
             },
             setDropFiles( { commit }, dropFiles ) {
                 commit( 'setDropFiles', dropFiles );
-            },
-            fetchFaculties( { commit }, payload ) {
-                // return promise in order to wait for resolve before proceed in router.onReady and router.beforeResolve
-                return new Promise( function ( resolve, reject ) {
-                    Vue.apollo.query( {
-                        query: gql`${ FACULTIES_QUERY }`,
-                        fetchPolicy: 'network-only'
-                    } ).then( ( result ) => {
-                        commit( 'setFaculties', result.data.faculties );
-                        resolve();
-                    } ).catch( ( error ) => {
-                        console.dir( error );
-                        // TODO: centralize the apollo errors in interceptor
-                        /*  commit( 'setMessageBody', error.message );
-                         commit( 'setShowMessage', true );
-                         if ( isBrowser ) {
-                             setTimeout( () => {
-                                 commit( 'setMessageBody', '' );
-                                 commit( 'setShowMessage', false );
-                             }, 5000 );
-                         } */
-
-                        reject();
-                    } );
-                } );
-            },
-            setFaculties( { commit }, payload ) {
-                commit( 'setFaculties', payload );
             }
         }
     };
