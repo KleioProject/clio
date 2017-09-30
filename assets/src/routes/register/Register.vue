@@ -32,6 +32,7 @@
                         <div class="tcenter">
                             <label for="regAgree">Приемам правилата за ползване на сайта</label>
                             <input id="regAgree" class="checkbox" type="checkbox" v-model="regAgree">
+                            <p v-if="$hasError('register', 'regAgree')">{{$getError('register', 'regAgree')}}</p>
                         </div>
                     </div>
                     <div class="air-small"></div>
@@ -41,6 +42,7 @@
                             <router-link to="/clio/login" tag="button" class="link-item" active-class="link-active">Вход</router-link>
                         </div>
                     </div>
+                    <pre>{{formErrors}}</pre>
                 </div>
             </div>
         </div>
@@ -57,6 +59,57 @@ export default {
     },
     beforeMount: function() {
         console.log(`beforeMount method of Register called from ${isBrowser ? 'client' : 'server'}`);
+        this.$validator();
+    },
+    data: function() {
+        return {
+            forms: [
+                {
+                    name: 'register',
+                    schema: {
+                        passwordsAreEqual: {
+                            schema: {
+                                type: 'boolean',
+                                value: true,
+                                message: 'Паролите не съвпадат.'
+                            }
+                        },
+                        regAgree: {
+                            schema: {
+                                type: 'boolean',
+                                value: true,
+                                message: 'За да регистрирате потребител, трябва да сте съгласни с правилата за ползване на сайта.'
+                            }
+                        },
+                        regEmail: {
+                            schema: {
+                                type: 'string',
+                                max: 10,
+                                min: 2,
+                                message: 'Имейлът трябва да е между 2 и 10 символа.'
+                            }
+                        },
+                        regFirstName: {
+                            schema: {
+                                type: 'string',
+                                max: 256,
+                                min: 1,
+                                message: 'Това поле е задължително.'
+                            }
+                        },
+                        regLastName: {
+                            schema: {
+                                type: 'string',
+                                max: 256,
+                                min: 1,
+                                message: 'Това поле е задължително.'
+                            }
+                        }
+                    }
+                }
+            ],
+            formErrors: {}
+        }
     },
     components: {
         dropdown: Dropdown
@@ -138,21 +191,25 @@ export default {
     },
     methods: {
         register() {
-            this.$store.dispatch('register', {
-                agree: this.regAgree,
-                email: this.regEmail,
-                faculty: {
-                    id: this.regFaculty.id,
-                    name: this.regFaculty.label,
-                    __typename: this.regFaculty.__typename
-                },
-                facultyNumber: this.regFacultyNumber,
-                firstName: this.regFirstName,
-                lastName: this.regLastName,
-                password: this.regPassword,
-                passwordRepeat: this.regPasswordRepeat,
-                phone: this.regPhone
-            });
+            this.validateForm.register();
+            this.$forceUpdate();
+            if (this.formErrors.register.isValid) {
+                this.$store.dispatch('register', {
+                    agree: this.regAgree,
+                    email: this.regEmail,
+                    faculty: {
+                        id: this.regFaculty.id,
+                        name: this.regFaculty.label,
+                        __typename: this.regFaculty.__typename
+                    },
+                    facultyNumber: this.regFacultyNumber,
+                    firstName: this.regFirstName,
+                    lastName: this.regLastName,
+                    password: this.regPassword,
+                    passwordRepeat: this.regPasswordRepeat,
+                    phone: this.regPhone
+                });
+            }
         }
     }
 }
