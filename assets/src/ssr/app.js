@@ -18,24 +18,14 @@ export function createApp() {
     const store = createStore();
     const router = createRouter( store );
     const client = createApolloClient( store );
-    const validator = createValidator( Vue );
-    const ValidatorPlugin = {
-        install( Vue, options ) {
-            Vue.prototype.$validator = validator;
-            Vue.prototype.$hasError = function ( formName, propName ) {
-                return this.formErrors && this.formErrors[ formName ] && this.formErrors[ formName ][ propName ];
-            };
-            Vue.prototype.$getError = function ( formName, propName ) {
-                return this.formErrors[ formName ][ propName ].message;
-            };
-        }
-    };
+    const axios = createAxiosClient( store );
+    const validator = createValidator();
+
     const ApolloPlugin = {
         install( Vue, options ) {
             Vue.apollo = client;
         }
     };
-    const axios = createAxiosClient( store );
     const AxiosPlugin = {
         install( Vue, options ) {
             Vue.axios = axios;
@@ -44,7 +34,7 @@ export function createApp() {
 
     Vue.use( ApolloPlugin );
     Vue.use( AxiosPlugin );
-    Vue.use( ValidatorPlugin );
+    Vue.use( validator );
 
     // In order to have it in the router.beforeEach on the Browser!
     if ( isBrowser && window.__INITIAL_STATE__ ) {

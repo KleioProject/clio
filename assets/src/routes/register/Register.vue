@@ -32,7 +32,7 @@
                         <div class="tcenter">
                             <label for="regAgree">Приемам правилата за ползване на сайта</label>
                             <input id="regAgree" class="checkbox" type="checkbox" v-model="regAgree">
-                            <p v-if="$hasError('register', 'regAgree')">{{$getError('register', 'regAgree')}}</p>
+                            <p v-if="$$hasError('register', 'regAgree')">{{$$getError('register', 'regAgree')}}</p>
                         </div>
                     </div>
                     <div class="air-small"></div>
@@ -59,7 +59,6 @@ export default {
     },
     beforeMount: function() {
         console.log(`beforeMount method of Register called from ${isBrowser ? 'client' : 'server'}`);
-        this.$validator();
     },
     data: function() {
         return {
@@ -107,8 +106,7 @@ export default {
                         }
                     }
                 }
-            ],
-            formErrors: {}
+            ]
         }
     },
     components: {
@@ -191,9 +189,8 @@ export default {
     },
     methods: {
         register() {
-            this.validateForm.register();
-            this.$forceUpdate();
-            if (this.formErrors.register.isValid) {
+            this.$$validateAllFields.register();
+            if (this.$$isValidForm('register')) {
                 this.$store.dispatch('register', {
                     agree: this.regAgree,
                     email: this.regEmail,
