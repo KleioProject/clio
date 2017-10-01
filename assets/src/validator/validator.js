@@ -1,4 +1,16 @@
 const validators = {
+    array: function ( prop, schema ) {
+        if ( !Array.isArray( prop ) ) {
+            return false;
+        }
+        if ( typeof schema.min === 'number' && prop.length < schema.min ) {
+            return false;
+        }
+        if ( typeof schema.max === 'number' && prop.length > schema.max ) {
+            return false;
+        }
+        return true;
+    },
     boolean: function ( prop, schema ) {
         return typeof prop === 'boolean' && prop === schema.value;
     },
@@ -62,6 +74,7 @@ function isFormValid( form, allProps ) {
  */
 function validateForm( form, schema, prop, allProps, dataObj, pathArray ) {
     let isValid = true;
+    form[ prop ] = {};
     switch ( schema.type ) {
         case 'boolean':
             isValid = validators.boolean( getRef( dataObj, pathArray ), schema );
@@ -73,12 +86,25 @@ function validateForm( form, schema, prop, allProps, dataObj, pathArray ) {
             isValid = validators.string( getRef( dataObj, pathArray ), schema );
             break;
         case 'object':
-
+            if ( !getRef( dataObj, pathArray ) || typeof getRef( dataObj, pathArray ) !== 'object' ) {
+                isValid = false;
+            } else {
+                const innerForm = form[ prop ] = {};
+                const innerSchema = schema.schema;
+                const innerProps = Object.keys( schema.schema );
+                const validityArray = []
+                for ( let i = 0; i < innerProps.length; i++ ) {
+                    const innerPathArray = pathArray.concat( [ innerProps[ i ] ] );
+                    const innerErrorForm = validateForm.bind( this )( innerForm, innerSchema[ innerProps[ i ] ], innerProps[ i ], innerProps, dataObj, innerPathArray );
+                    validityArray.push( innerErrorForm );
+                }
+                isValid = validityArray[ validityArray.length - 1 ].isValid;
+            }
             break;
     }
-    form[ prop ] = {};
     form[ prop ].error = isValid ? null : { message: schema.message };
     form.isValid = isFormValid.bind( this )( form, allProps );
+    return form;
 }
 
 function createFormValidatorsFactory( Vue ) {
@@ -100,9 +126,7 @@ function createFormValidatorsFactory( Vue ) {
             form.isValid = false;
             for ( let prop in this.forms[ i ].schema ) {
                 const schema = this.forms[ i ].schema[ prop ].schema;
-
                 const propValidator = validateForm.bind( this, form, schema, prop, allProps, this, [ prop ] );
-
                 allPropsValidators.push( propValidator );
                 this.$watch( prop, propValidator );
             }
@@ -121,7 +145,7 @@ export default function createValidator() {
         install( Vue, options ) {
             Vue.prototype.$$validator = createFormValidatorsFactory( Vue );
             Vue.prototype.$$hasError = function ( pathArray ) {
-                return getRef( this.formErrors, pathArray) ? getRef( this.formErrors, pathArray).error : false;
+                return getRef( this.formErrors, pathArray ) ? getRef( this.formErrors, pathArray ).error : false;
             };
             Vue.prototype.$$getError = function ( pathArray ) {
                 return getRef( this.formErrors, pathArray ).error.message;

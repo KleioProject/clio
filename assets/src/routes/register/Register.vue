@@ -91,7 +91,7 @@ export default {
                         regFaculty: {
                             schema: {
                                 type: 'object',
-                                message: 'Имейлът трябва да е между 2 и 10 символа.',
+                                message: 'Изборът на факултет е задължителен',
                                 schema: {
                                     id: {
                                         type: 'string',
@@ -101,7 +101,7 @@ export default {
                                     label: {
                                         type: 'string',
                                         min: 1,
-                                        message: 'Факултетът трябва да има id',
+                                        message: 'Факултетът трябва да има label',
                                     }
                                 }
                             }
