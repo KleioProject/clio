@@ -121,7 +121,7 @@ export default function createValidator() {
         install( Vue, options ) {
             Vue.prototype.$$validator = createFormValidatorsFactory( Vue );
             Vue.prototype.$$hasError = function ( pathArray ) {
-                return getRef( this.formErrors, pathArray.push( 'error' ) );
+                return getRef( this.formErrors, pathArray) ? getRef( this.formErrors, pathArray).error : false;
             };
             Vue.prototype.$$getError = function ( pathArray ) {
                 return getRef( this.formErrors, pathArray ).error.message;
