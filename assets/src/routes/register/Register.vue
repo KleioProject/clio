@@ -5,38 +5,54 @@
                 <div class="col-xs-12 no-pad">
                     <div class="air"></div>
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="text" placeholder="въведете име" v-model="regFirstName">
+                            <span class="error-message" v-if="$$hasError(['register', 'regFirstName'])">{{$$getError(['register', 'regFirstName'])}}</span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="text" placeholder="въведете фамилия" v-model="regLastName">
+                            <span class="error-message" v-if="$$hasError(['register', 'regLastName'])">{{$$getError(['register', 'regLastName'])}}</span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="password" placeholder="въведете парола" v-model="regPassword">
+                            <span class="error-message" v-if="$$hasError(['register', 'passwordsAreEqual']) && !$$hasError(['register', 'regPassword'])">
+                                {{$$getError(['register', 'passwordsAreEqual'])}}
+                            </span>
+                            <span class="error-message" v-if="$$hasError(['register', 'regPassword'])">
+                                {{$$getError(['register', 'regPassword'])}}
+                            </span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="password" placeholder="повторете паролата" v-model="regPasswordRepeat">
+                            <span class="error-message" v-if="$$hasError(['register', 'passwordsAreEqual']) && !$$hasError(['register', 'regPasswordRepeat'])">
+                                {{$$getError(['register', 'passwordsAreEqual'])}}
+                            </span>
+                            <span class="error-message" v-if="$$hasError(['register', 'regPasswordRepeat'])">
+                                {{$$getError(['register', 'regPasswordRepeat'])}}
+                            </span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="text" placeholder="въведете имейл" v-model="regEmail">
+                            <span class="error-message" v-if="$$hasError(['register', 'regEmail'])">{{$$getError(['register', 'regEmail'])}}</span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="text" placeholder="въведете телефон" v-model="regPhone">
+                            <span class="error-message" v-if="$$hasError(['register', 'regPhone'])">{{$$getError(['register', 'regPhone'])}}</span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <input type="text" placeholder="въведете факултетен номер" v-model="regFacultyNumber">
+                            <span class="error-message" v-if="$$hasError(['register', 'regFacultyNumber'])">{{$$getError(['register', 'regFacultyNumber'])}}</span>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-6 form-control">
                             <dropdown :opts='faculties' v-model='regFaculty' :placeholder='"изберете факултет"' :markerDiameter="22"></dropdown>
+                            <span class="error-message" v-if="$$hasError(['register', 'regFaculty'])">{{$$getError(['register', 'regFaculty'])}}</span>
                         </div>
-                        <div class="tcenter">
+                        <div class="col-xs-12 form-control">
                             <label for="regAgree">Приемам правилата за ползване на сайта</label>
                             <input id="regAgree" class="checkbox" type="checkbox" v-model="regAgree">
-                            <p v-if="$$hasError(['register', 'regAgree'])">{{$$getError(['register', 'regAgree'])}}</p>
+                            <span class="error-message" v-if="$$hasError(['register', 'regAgree'])">{{$$getError(['register', 'regAgree'])}}</span>
                         </div>
                     </div>
-                    <input type="text" @keyup="testArrayHandler">
-                    <button @click="testArray.pop()">pop</button>
                     <div class="air-small"></div>
                     <div class="row button-group">
                         <div class="col-xs-12">
@@ -44,7 +60,7 @@
                             <router-link to="/clio/login" tag="button" class="link-item" active-class="link-active">Вход</router-link>
                         </div>
                     </div>
-                    <pre>{{formErrors}}</pre>
+                 <!--      <pre>{{$$formErrors}}</pre> -->
                 </div>
             </div>
         </div>
@@ -65,7 +81,6 @@ export default {
     },
     data: function() {
         return {
-            testArray: [],
             forms: createRegistrationSchema()
         }
     },
@@ -148,9 +163,6 @@ export default {
         }
     },
     methods: {
-        testArrayHandler(event) {
-            this.testArray.push(event.target.value);
-        },
         register() {
             this.$$validateAllFields.register();
             if (this.$$isValidForm('register')) {

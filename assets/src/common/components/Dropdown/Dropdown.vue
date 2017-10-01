@@ -33,6 +33,15 @@ export default {
     beforeMount: function() {
         document.addEventListener('click', this.bodyClickHandler);
     },
+    mounted() {
+        for (let i = 0; i < this.options.length; i++) {
+            if (this.options[i].id === this.value.id) {
+                this.selected = this.value;
+                this.option = i;
+                this.$refs.inputEl.value = this.value.label;
+            }
+        }
+    },
     beforeDestroy: function() {
         document.removeEventListener('click', this.bodyClickHandler);
     },

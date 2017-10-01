@@ -3,21 +3,6 @@ export default () => {
         {
             name: 'register',
             schema: {
-                testArray: {
-                    schema: {
-                        type: 'array',
-                        min: 1,
-                        max: 1,
-                        message: 'Array is needed',
-                        schema: {
-                            item: {
-                                type: 'string',
-                                message: 'Трябва да съм до 2 символа',
-                                max: 2
-                            }
-                        }
-                    }
-                },
                 passwordsAreEqual: {
                     schema: {
                         type: 'boolean',
@@ -29,7 +14,7 @@ export default () => {
                     schema: {
                         type: 'boolean',
                         value: true,
-                        message: 'За да регистрирате потребител, трябва да сте съгласни с правилата за ползване на сайта.'
+                        message: 'Преди да се регистрирате, трябва да сте съгласни с правилата за ползване на сайта.'
                     }
                 },
                 regEmail: {
@@ -58,6 +43,14 @@ export default () => {
                         }
                     }
                 },
+                regFacultyNumber: {
+                    schema: {
+                        type: 'string',
+                        max: 256,
+                        min: 1,
+                        message: 'Това поле е задължително.'
+                    }
+                },
                 regFirstName: {
                     schema: {
                         type: 'string',
@@ -72,6 +65,30 @@ export default () => {
                         max: 256,
                         min: 1,
                         message: 'Това поле е задължително.'
+                    }
+                },
+                regPassword: {
+                    schema: {
+                        type: 'string',
+                        max: 10,
+                        min: 4,
+                        message: 'Паролата трябва да бъде между 4 и 10 символа.'
+                    }
+                },
+                regPasswordRepeat: {
+                    schema: {
+                        type: 'string',
+                        max: 10,
+                        min: 4,
+                        message: 'Паролата трябва да бъде между 4 и 10 символа.'
+                    }
+                },
+                regPhone: {
+                    schema: {
+                        type: 'string',
+                        max: 10,
+                        min: 10,
+                        message: 'Въведете валиден телефонен номер.'
                     }
                 }
             }

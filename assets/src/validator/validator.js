@@ -130,13 +130,13 @@ function createFormValidatorsFactory( Vue ) {
         if ( !this.forms || !Array.isArray( this.forms ) ) {
             return;
         }
-        this.formErrors = {};
+        this.$$formErrors = {};
         this.$$validateAllFields = {};
         for ( let i = 0; i < this.forms.length; i++ ) {
             const formName = this.forms[ i ].name;
             const allPropsValidators = [];
             const allProps = Object.keys( this.forms[ i ].schema );
-            const form = this.formErrors[ formName ] = {};
+            const form = this.$$formErrors[ formName ] = {};
             form.isValid = false;
             for ( let prop in this.forms[ i ].schema ) {
                 const schema = this.forms[ i ].schema[ prop ].schema;
@@ -159,13 +159,13 @@ export default function createValidator() {
         install( Vue, options ) {
             Vue.prototype.$$validator = createFormValidatorsFactory( Vue );
             Vue.prototype.$$hasError = function ( pathArray ) {
-                return getRef( this.formErrors, pathArray ) ? getRef( this.formErrors, pathArray ).error : false;
+                return getRef( this.$$formErrors, pathArray ) ? getRef( this.$$formErrors, pathArray ).error : false;
             };
             Vue.prototype.$$getError = function ( pathArray ) {
-                return getRef( this.formErrors, pathArray ).error.message;
+                return getRef( this.$$formErrors, pathArray ).error.message;
             };
             Vue.prototype.$$isValidForm = function ( formName ) {
-                return this.formErrors && this.formErrors[ formName ] && this.formErrors[ formName ].isValid;
+                return this.$$formErrors && this.$$formErrors[ formName ] && this.$$formErrors[ formName ].isValid;
             };
             Vue.mixin( {
                 created() {
