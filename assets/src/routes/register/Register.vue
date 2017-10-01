@@ -32,7 +32,7 @@
                         <div class="tcenter">
                             <label for="regAgree">Приемам правилата за ползване на сайта</label>
                             <input id="regAgree" class="checkbox" type="checkbox" v-model="regAgree">
-                            <p v-if="$$hasError('register', 'regAgree')">{{$$getError('register', 'regAgree')}}</p>
+                            <p v-if="$$hasError(['register', 'regAgree'])">{{$$getError(['register', 'regAgree'])}}</p>
                         </div>
                     </div>
                     <div class="air-small"></div>
@@ -86,6 +86,24 @@ export default {
                                 max: 10,
                                 min: 2,
                                 message: 'Имейлът трябва да е между 2 и 10 символа.'
+                            }
+                        },
+                        regFaculty: {
+                            schema: {
+                                type: 'object',
+                                message: 'Имейлът трябва да е между 2 и 10 символа.',
+                                schema: {
+                                    id: {
+                                        type: 'string',
+                                        min: 1,
+                                        message: 'Факултетът трябва да има id',
+                                    },
+                                    label: {
+                                        type: 'string',
+                                        min: 1,
+                                        message: 'Факултетът трябва да има id',
+                                    }
+                                }
                             }
                         },
                         regFirstName: {

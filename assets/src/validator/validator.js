@@ -31,37 +31,54 @@ const validators = {
     }
 }
 
-function isFormValid( formName, allProps ) {
+function getRef( obj, pathArray ) {
+    let value = obj[ pathArray[ 0 ] ];
+    for ( let i = 1; i < pathArray.length; i++ ) {
+        if ( value ) {
+            value = value[ pathArray[ i ] ];
+        } else {
+            return value;
+        }
+    }
+    return value;
+}
+
+function isFormValid( form, allProps ) {
     let isFormValid = true;
     for ( let i = 0; i < allProps.length; i++ ) {
-        const isPropValid = this.formErrors[ formName ][ allProps[ i ] ] === null;
+        const isPropValid = form[ allProps[ i ] ] ? form[ allProps[ i ] ].error === null : false;
         isFormValid = isFormValid && isPropValid;
     }
     return isFormValid;
 };
 
-function validateForm( formName, schema, prop, allProps ) {
-    if ( !this.formErrors[ formName ] ) {
-        this.formErrors[ formName ] = {};
-        this.formErrors[ formName ].isValid = false;
-    }
+/**
+ * @param {any} form - the form from the Component or the innerForm from an object property of that form
+ * @param {any} schema - the form/inner object property schema
+ * @param {any} prop - the string name of the property (the key)
+ * @param {any} allProps  array with all properties of a form (the root form or the inner object)
+ * @param {any} dataObj - the actual data - this when callled for the root for or the corresponding key of a root property of this
+ * @param {any} pathArray - the path to a value relative from the dataObj
+ */
+function validateForm( form, schema, prop, allProps, dataObj, pathArray ) {
     let isValid = true;
     switch ( schema.type ) {
         case 'boolean':
-            isValid = validators.boolean( this[ prop ], schema );
+            isValid = validators.boolean( getRef( dataObj, pathArray ), schema );
             break;
         case 'number':
-            isValid = validators.number( this[ prop ], schema );
+            isValid = validators.number( getRef( dataObj, pathArray ), schema );
             break;
         case 'string':
-            isValid = validators.string( this[ prop ], schema );
+            isValid = validators.string( getRef( dataObj, pathArray ), schema );
             break;
         case 'object':
 
             break;
     }
-    this.formErrors[ formName ][ prop ] = isValid ? null : { message: schema.message };
-    this.formErrors[ formName ].isValid = isFormValid.bind( this )( formName, allProps );
+    form[ prop ] = {};
+    form[ prop ].error = isValid ? null : { message: schema.message };
+    form.isValid = isFormValid.bind( this )( form, allProps );
 }
 
 function createFormValidatorsFactory( Vue ) {
@@ -79,10 +96,13 @@ function createFormValidatorsFactory( Vue ) {
             const formName = this.forms[ i ].name;
             const allPropsValidators = [];
             const allProps = Object.keys( this.forms[ i ].schema );
+            const form = this.formErrors[ formName ] = {};
+            form.isValid = false;
             for ( let prop in this.forms[ i ].schema ) {
                 const schema = this.forms[ i ].schema[ prop ].schema;
-                // const form = this.formErrors[ formName ] = {};
-                const propValidator = validateForm.bind( this, formName, schema, prop, allProps );
+
+                const propValidator = validateForm.bind( this, form, schema, prop, allProps, this, [ prop ] );
+
                 allPropsValidators.push( propValidator );
                 this.$watch( prop, propValidator );
             }
@@ -100,20 +120,17 @@ export default function createValidator() {
     return {
         install( Vue, options ) {
             Vue.prototype.$$validator = createFormValidatorsFactory( Vue );
-            Vue.prototype.$$hasError = function ( formName, propName ) {
-                return this.formErrors && this.formErrors[ formName ] && this.formErrors[ formName ][ propName ];
+            Vue.prototype.$$hasError = function ( pathArray ) {
+                return getRef( this.formErrors, pathArray.push( 'error' ) );
             };
-            Vue.prototype.$$getError = function ( formName, propName ) {
-                if ( !this.formErrors ) {
-                    return;
-                }
-                return this.formErrors[ formName ][ propName ].message;
+            Vue.prototype.$$getError = function ( pathArray ) {
+                return getRef( this.formErrors, pathArray ).error.message;
             };
             Vue.prototype.$$isValidForm = function ( formName ) {
                 return this.formErrors && this.formErrors[ formName ] && this.formErrors[ formName ].isValid;
             };
             Vue.mixin( {
-               created() {
+                created() {
                     this.$$validator();
                 }
             } );
