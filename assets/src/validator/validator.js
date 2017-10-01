@@ -27,6 +27,7 @@ const validators = {
         return true;
     },
     string: function ( prop, schema ) {
+
         if ( typeof prop !== 'string' ) {
             return false;
         }
@@ -83,6 +84,7 @@ function validateForm( form, schema, prop, allProps, dataObj, pathArray ) {
             isValid = validators.number( getRef( dataObj, pathArray ), schema );
             break;
         case 'string':
+
             isValid = validators.string( getRef( dataObj, pathArray ), schema );
             break;
         case 'object':
@@ -100,6 +102,18 @@ function validateForm( form, schema, prop, allProps, dataObj, pathArray ) {
                 }
                 isValid = validityArray[ validityArray.length - 1 ].isValid;
             }
+            break;
+        case 'array':
+            this.$forceUpdate(); //run change detection after adding or removing of item in array
+            const itemSchema = schema.schema.item;
+            const theArray = getRef( dataObj, pathArray );
+            const arrayKeys = Object.keys( theArray );
+            for ( let i = 0; i < theArray.length; i++ ) {
+                const innerPathArray = pathArray.concat( [ i ] );
+                form[ prop ] = validateForm.bind( this )( form[ prop ], itemSchema, i, arrayKeys, dataObj, innerPathArray );
+            }
+            isValid = form[ prop ].isValid && validators.array( getRef( dataObj, pathArray ), schema );
+            form[ prop ].isValid = isValid;
             break;
     }
     form[ prop ].error = isValid ? null : { message: schema.message };

@@ -35,6 +35,8 @@
                             <p v-if="$$hasError(['register', 'regAgree'])">{{$$getError(['register', 'regAgree'])}}</p>
                         </div>
                     </div>
+                    <input type="text" @keyup="testArrayHandler">
+                    <button @click="testArray.pop()">pop</button>
                     <div class="air-small"></div>
                     <div class="row button-group">
                         <div class="col-xs-12">
@@ -52,6 +54,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Dropdown from '../../common/components/Dropdown/Dropdown';
+import createRegistrationSchema from './_registration-schema';
 
 export default {
     asyncAction: {
@@ -62,69 +65,8 @@ export default {
     },
     data: function() {
         return {
-            forms: [
-                {
-                    name: 'register',
-                    schema: {
-                        passwordsAreEqual: {
-                            schema: {
-                                type: 'boolean',
-                                value: true,
-                                message: 'Паролите не съвпадат.'
-                            }
-                        },
-                        regAgree: {
-                            schema: {
-                                type: 'boolean',
-                                value: true,
-                                message: 'За да регистрирате потребител, трябва да сте съгласни с правилата за ползване на сайта.'
-                            }
-                        },
-                        regEmail: {
-                            schema: {
-                                type: 'string',
-                                max: 10,
-                                min: 2,
-                                message: 'Имейлът трябва да е между 2 и 10 символа.'
-                            }
-                        },
-                        regFaculty: {
-                            schema: {
-                                type: 'object',
-                                message: 'Изборът на факултет е задължителен',
-                                schema: {
-                                    id: {
-                                        type: 'string',
-                                        min: 1,
-                                        message: 'Факултетът трябва да има id',
-                                    },
-                                    label: {
-                                        type: 'string',
-                                        min: 1,
-                                        message: 'Факултетът трябва да има label',
-                                    }
-                                }
-                            }
-                        },
-                        regFirstName: {
-                            schema: {
-                                type: 'string',
-                                max: 256,
-                                min: 1,
-                                message: 'Това поле е задължително.'
-                            }
-                        },
-                        regLastName: {
-                            schema: {
-                                type: 'string',
-                                max: 256,
-                                min: 1,
-                                message: 'Това поле е задължително.'
-                            }
-                        }
-                    }
-                }
-            ]
+            testArray: [],
+            forms: createRegistrationSchema()
         }
     },
     components: {
@@ -206,6 +148,9 @@ export default {
         }
     },
     methods: {
+        testArrayHandler(event) {
+            this.testArray.push(event.target.value);
+        },
         register() {
             this.$$validateAllFields.register();
             if (this.$$isValidForm('register')) {
