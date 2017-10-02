@@ -1,0 +1,35 @@
+.container-component {
+    padding: 2rem 2rem 1rem 2rem;
+    border: 1px dashed #626667;
+    background-color: $bkg-light;
+    .content-item {
+        display: inline-block;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+        padding: 0.5rem 1.1rem;
+        font-size: 1.3rem;
+        background-color: $bkg-main;
+        border: 1px solid $button;
+        border-radius: 2rem;
+        transition: all 0.3s;
+        .content-label,
+        .icon-cancel {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .content-label {
+            width: calc(100% - 26px);
+        }
+        .icon-cancel {
+            font-size: 1.6rem;
+        }
+    }
+    .content-item-enter,
+    .content-item-leave-to {
+        opacity: 0;
+        transform: translateY(3rem);
+    }
+    .content-item-leave-active {
+        position: absolute;
+    }
+}
