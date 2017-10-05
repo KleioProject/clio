@@ -61,9 +61,10 @@ export default {
                 }
             }
         },
-        browseOptions() {
+        browseOptions(event) {
             const sel = this.$refs.customSelect;
             const input = this.$refs.inputEl;
+            console.log(event.key);
             switch (event.key) {
                 case 'ArrowDown':
                     if (this.option === -1) {
@@ -169,12 +170,14 @@ export default {
         },
         onMarkerDragstart(event) {
             if (isBrowser) {
-                const ghost = this.$refs.marker.cloneNode(true);
-                ghost.style.display = 'none';
-                document.body.appendChild(ghost);
-                event.dataTransfer.setDragImage(ghost, 0, 0);
-                this.drag.startY = event.clientY;
-                this.drag.pauseOnScroll = true;
+                if (typeof event.dataTransfer.setDragImage === 'function') {
+                    const ghost = this.$refs.marker.cloneNode(true);
+                    ghost.style.display = 'none';
+                    document.body.appendChild(ghost);
+                    event.dataTransfer.setDragImage(ghost, 0, 0);
+                    this.drag.startY = event.clientY;
+                    this.drag.pauseOnScroll = true;
+                }
             }
         },
         onMouseenter(index) {

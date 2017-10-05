@@ -4,6 +4,7 @@ import { sync } from 'vuex-router-sync';
 
 import './../../styles/main.scss';
 import './../common/filters';
+import './../common/directives';
 import createRouter from './../router';
 import createStore from './../store/store';
 import createApolloClient from '../graphql/apollo';

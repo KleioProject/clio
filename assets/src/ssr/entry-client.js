@@ -1,5 +1,13 @@
 
 import { createApp } from './app';
+// IE stuff:
+require( 'es6-promise' ).polyfill();
+if ( !Array.from ) {
+    Array.from = function ( object ) {
+        'use strict';
+        return [].slice.call( object );
+    };
+}
 
 const { app, router, store, client, axios } = createApp();
 

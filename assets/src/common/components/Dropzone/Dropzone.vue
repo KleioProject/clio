@@ -19,6 +19,7 @@ export default {
     methods: {
         changeHandler(event) {
             const files = Array.from(event.target.files);
+            console.log(files);
             if (this.merge) {
                 this.$emit('input', this.mergeFileArrays(this.value, files));
             } else {
