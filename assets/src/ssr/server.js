@@ -38,6 +38,7 @@ server.use( '/public/fonts', express.static( __dirname + '/public/fonts' ) );
 
 server.all( '*', ( req, res ) => {
     console.log( `Server request url: ${ req.url }` );
+    console.dir( req.body, { colors: true, depth: null } );
     const user = req.body.user || { name: 'Clio' };
     const token = req.body.token || 'I\'m token sent by Phoenix.';
     const context = {

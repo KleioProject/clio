@@ -91,6 +91,7 @@
     "vue-axios": "^2.0.2",
     "vue-router": "^2.7.0",
     "vue-server-renderer": "^2.4.2",
+    "vuebar": "0.0.17",
     "vuex": "^2.3.1",
     "vuex-router-sync": "^4.2.0"
   },

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { sync } from 'vuex-router-sync';
+import Vuebar from 'vuebar';
 
 import './../../styles/main.scss';
 import './../common/filters';
@@ -36,6 +37,7 @@ export function createApp() {
     Vue.use( ApolloPlugin );
     Vue.use( AxiosPlugin );
     Vue.use( validator );
+    Vue.use(Vuebar);
 
     // In order to have it in the router.beforeEach on the Browser!
     if ( isBrowser && window.__INITIAL_STATE__ ) {

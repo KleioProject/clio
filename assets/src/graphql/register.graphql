@@ -1,6 +1,6 @@
 mutation Register($contactEmail: String, 
                   $email: String, 
-                  $faculty: String,
+                  $faculty: ID,
                   $facultyNumber: String, 
                   $firstName: String, 
                   $lastName: String, 
@@ -8,13 +8,13 @@ mutation Register($contactEmail: String,
                   $phone: String) 
     {
         register(contactEmail: $contactEmail, 
-                 email: $email, 
-                 faculty: $faculty, 
-                 facultyNumber: $facultyNumber, 
+                 loginEmail: $email, 
+                 facultyId: $faculty, 
+                 idNumber: $facultyNumber, 
                  firstName: $firstName, 
                  lastName: $lastName, 
                  password: $password, 
-                 phone: $phone) 
+                 contactNumber: $phone) 
         {
             firstName
             id
