@@ -47,6 +47,7 @@ defmodule ClioWeb.Endpoint do
   configuration should be loaded from the system environment.
   """
   def init(_key, config) do
+    ConCache.put(:request_flow, :id, %ConCache.Item{value: 0, ttl: 0})
     if config[:load_from_system_env] do
       port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}

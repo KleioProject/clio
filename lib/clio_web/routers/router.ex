@@ -1,46 +1,42 @@
 defmodule ClioWeb.Router do
   use ClioWeb, :router
 
-  pipeline :browser do
+  pipeline :ssr do
     plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
-  pipeline :token do
     plug :fetch_cookies
-    plug ClioWeb.Context
+    plug ClioWeb.Context, :ssr
   end
 
-  scope "/account", ClioWeb do
-    pipe_through [:api, :token]
-
-    forward "/", AccountRouter
+  pipeline :gql do
+    plug :accepts, ["json"]
+    plug :fetch_cookies
+    plug ClioWeb.Context, :gql
   end
 
   scope "/clio", ClioWeb do
-    pipe_through [:token]
+    pipe_through :ssr
 
-    get "/*path", PageController, :index
+    get "/*any", SsrController, :index
   end
 
   scope "/gql" do
-    pipe_through [:token]
+    pipe_through :gql
 
     forward "/", Absinthe.Plug, schema: ClioWeb.Schema
   end
 
   scope "/graphiql" do
-    pipe_through :api
+    pipe_through :gql
 
-    forward "/", Absinthe.Plug.GraphiQL,
+    forward "/",
+      Absinthe.Plug.GraphiQL,
       schema: ClioWeb.Schema,
       context: %{pubsub: ClioWeb.Endpoint}
   end
+
+  # scope "/", ClioWeb do
+  #   pipe_through :ssr
+
+  #   match(:*, "/*any" , RedirectController, :redirect_to_index)
+  # end
 end

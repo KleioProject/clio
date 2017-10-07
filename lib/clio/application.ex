@@ -8,6 +8,9 @@ defmodule Clio.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
+      supervisor(ConCache, [[ttl_check: :timer.seconds(1),
+                             ttl: :timer.seconds(5)],
+                            [name: :request_flow]]),
       # Start the Ecto repository
       supervisor(Clio.Repo, []),
       # Start the endpoint when the application starts
