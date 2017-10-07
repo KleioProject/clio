@@ -22,4 +22,13 @@ defmodule ClioWeb.Schema.Types do
     field :login_email, non_null(:string)
     field :search_name, non_null(:string)
   end
+
+  object :viewer do
+    field :id, non_null(:id)
+    field :first_name, non_null(:string)
+    field :last_name, non_null(:string)
+    field :is_active, non_null(:boolean)
+    field :is_admin, non_null(:boolean)
+    field :is_supervisor, non_null(:boolean)
+  end
 end

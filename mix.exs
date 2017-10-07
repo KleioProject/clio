@@ -50,7 +50,7 @@ defmodule Clio.Mixfile do
       {:httpoison, "~> 0.13.0"},
       {:faker, "~> 0.9"},
       {:ex_machina, "~> 2.1"},
-      # {:stream_data, git: "git://github.com/whatyouhide/stream_data.git"},
+      {:con_cache, "~> 0.12.1"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
     ]
   end
