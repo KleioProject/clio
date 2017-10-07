@@ -60,7 +60,7 @@
                             <router-link to="/clio/login" tag="button" class="link-item" active-class="link-active">Вход</router-link>
                         </div>
                     </div>
-                 <!--      <pre>{{$$formErrors}}</pre> -->
+                    <!--      <pre>{{$$formErrors}}</pre> -->
                 </div>
             </div>
         </div>
@@ -167,19 +167,14 @@ export default {
             this.$$validateAllFields.register();
             if (this.$$isValidForm('register')) {
                 this.$store.dispatch('register', {
-                    agree: this.regAgree,
+                   /*  agree: this.regAgree, */
                     email: this.regEmail,
-                    faculty: {
-                        id: this.regFaculty.id,
-                        name: this.regFaculty.label,
-                        __typename: this.regFaculty.__typename
-                    },
+                    faculty: this.regFaculty.id,
                     facultyNumber: this.regFacultyNumber,
                     firstName: this.regFirstName,
                     lastName: this.regLastName,
                     password: this.regPassword,
-                    passwordRepeat: this.regPasswordRepeat,
-                    phone: this.regPhone
+                    phone: this.regPhone,
                 });
             }
         }

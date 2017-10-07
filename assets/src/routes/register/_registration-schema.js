@@ -1,3 +1,5 @@
+import { EMAIL, PASSWORD, PHONE } from '../../validator/reg-exps';
+
 export default () => {
     return [
         {
@@ -20,9 +22,8 @@ export default () => {
                 regEmail: {
                     schema: {
                         type: 'string',
-                        max: 10,
-                        min: 2,
-                        message: 'Имейлът трябва да е между 2 и 10 символа.'
+                        regExp: EMAIL,
+                        message: 'Въведете валиден имейл адрес.'
                     }
                 },
                 regFaculty: {
@@ -70,24 +71,21 @@ export default () => {
                 regPassword: {
                     schema: {
                         type: 'string',
-                        max: 10,
-                        min: 4,
-                        message: 'Паролата трябва да бъде между 4 и 10 символа.'
+                        regExp: PASSWORD,
+                        message: 'Паролата трябва да бъде между 8 и 16 символа, да съдържа цифра, буква и специален символ.'
                     }
                 },
                 regPasswordRepeat: {
                     schema: {
                         type: 'string',
-                        max: 10,
-                        min: 4,
-                        message: 'Паролата трябва да бъде между 4 и 10 символа.'
+                        regExp: PASSWORD,
+                        message: 'Паролата трябва да бъде между 8 и 16 символа, да съдържа цифра, буква и специален символ.'
                     }
                 },
                 regPhone: {
                     schema: {
                         type: 'string',
-                        max: 10,
-                        min: 10,
+                        regExp: PHONE,
                         message: 'Въведете валиден телефонен номер.'
                     }
                 }
