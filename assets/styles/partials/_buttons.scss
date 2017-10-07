@@ -16,6 +16,10 @@ button {
     &:active {
         transform: scale(0.98);
     }
+    &.btn-small {
+        width: 10rem;
+        height: 3rem;
+    }
 }
 
 .button-group {

@@ -2,25 +2,31 @@
     position: fixed;
     bottom: 0;
     right: 0;
+    z-index: $z4;
     width: 25%;
     min-width: 28rem;
 }
 
 .message-component {
     position: relative;
-    padding: 2rem;
+    padding: 1rem;
     background-color: $warn;
     &.success {
         background-color: $success;
     }
     .date-time {
         position: absolute;
-        top: 1rem;
-        right: 2rem;
+        top: 0.5rem;
+        right: 1rem;
         font-size: 1.2rem;
         .time {
             font-style: italic;
         }
+    }
+    .message-headline,
+    .message-body {
+        margin: 1rem 0;
+        font-size: 1.4rem;
     }
 }
 
