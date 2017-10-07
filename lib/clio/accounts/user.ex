@@ -42,6 +42,7 @@ defmodule Clio.Accounts.User do
     |> put_search()
     |> put_password_hash()
     |> unique_constraint(:login_email)
+    |> activate_changeset()
   end
 
   @doc false

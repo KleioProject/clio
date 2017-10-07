@@ -26,4 +26,13 @@ defmodule Clio.Accounts.Resolver do
         {:error, %{message: "LaLa Land", error_code: 123}}
     end
   end
+
+  def register_user(_root, args, _info) do
+    case Accounts.create_user(args) do
+      {:error, _} ->
+        {:error, %{message: "LaLa Land", error_code: 123}}
+      user ->
+        user
+    end
+  end
 end
