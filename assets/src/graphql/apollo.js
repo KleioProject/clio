@@ -1,4 +1,5 @@
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient from 'apollo-client';
+import { createNetworkInterface } from 'apollo-upload-client';
 
 function createApolloClient( store ) {
     const networkInterface = createNetworkInterface( {

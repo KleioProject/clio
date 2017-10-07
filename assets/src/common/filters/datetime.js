@@ -6,7 +6,7 @@ Vue.filter( 'datetime', ( timestamp, time ) => {
         const date = new Date( transformed );
         transformed = `<span class="date">${ date.getDate() }.${ date.getMonth() + 1 }.${ date.getFullYear() }</span>`;
         if ( time === 'time' ) {
-            transformed = `${ transformed }<span class="time"> ${ date.getHours() }:${ date.getMinutes() }:${ date.getSeconds() }`;
+            transformed = `${ transformed }<span class="time"> ${ date.getHours() }:${ date.getMinutes() }:${ date.getSeconds() }</span>`;
         }
     }
     return transformed;
