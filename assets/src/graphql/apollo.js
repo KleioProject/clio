@@ -1,7 +1,7 @@
 import ApolloClient from 'apollo-client';
 import { createNetworkInterface } from 'apollo-upload-client';
 
-function createApolloClient( store ) {
+function createApolloClient( store, router ) {
     const networkInterface = createNetworkInterface( {
         uri: `${ process.env.API_URL }gql`,
         opts: {
@@ -21,7 +21,7 @@ function createApolloClient( store ) {
     networkInterface.useAfter( [
         {
             applyAfterware( { response }, next ) {
-                console.log( 'Apollo useAfter' );
+                console.log( 'Apollo useAfter with Router available.' );
                 if ( !response.ok ) {
                     store.dispatch( 'addMessage', {
                         headline: 'Apollo Error',

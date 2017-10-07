@@ -18,8 +18,8 @@ export function createApp() {
     console.log( 'App created isBrowser: ', isBrowser );
     const store = createStore();
     const router = createRouter( store );
-    const client = createApolloClient( store );
-    const axios = createAxiosClient( store );
+    const client = createApolloClient( store, router );
+    const axios = createAxiosClient( store, router );
     const validator = createValidator();
 
     const ApolloPlugin = {

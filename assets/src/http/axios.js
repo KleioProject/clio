@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-function createAxiosClient( store ) {
+function createAxiosClient( store, router ) {
     const client = axios.create();
 
     client.interceptors.response.use(
         ( response ) => {
-            console.log( 'Axios interceptors response.' );
+            console.log( 'Axios interceptors response with Router available.' );
             store.dispatch( 'addMessage', {
                 headline: 'Axios Success',
                 body: 'Response has been received.',
