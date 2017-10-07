@@ -1,8 +1,8 @@
 defmodule ClioWeb.SsrController do
   use ClioWeb, :controller
 
-  def index(conn, _params) do
-    result =  HTTPoison.post!(create_query(conn), "{}")
+  def index(%{private: %{ssr: %{user: user}}} = conn, _params) do
+    result =  HTTPoison.post!(create_query(conn), encode_user(user))
     conn
     |> html(result.body)
   end
@@ -13,4 +13,11 @@ defmodule ClioWeb.SsrController do
 
   defp construct_query(<<>>), do: <<>>
   defp construct_query(query_string), do: "?" <> query_string
+
+  defp encode_user(%{} = map) do
+    map
+    |> Enum.map(fn {key, value} -> {key |> Atom.to_string |> Inflex.camelize(:lower) , value} end)
+    |> Map.new()
+    |> Poison.encode!
+  end
 end

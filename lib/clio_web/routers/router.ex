@@ -1,19 +1,10 @@
 defmodule ClioWeb.Router do
   use ClioWeb, :router
 
-  pipeline :browser do
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
-  pipeline :acc_json do
-    plug :accepts, ["json"]
-  end
-
-  pipeline :clio do
+  pipeline :ssr do
     plug :accepts, ["html"]
     plug :fetch_cookies
-    plug ClioWeb.Context, :clio
+    plug ClioWeb.Context, :ssr
   end
 
   pipeline :gql do
@@ -22,18 +13,8 @@ defmodule ClioWeb.Router do
     plug ClioWeb.Context, :gql
   end
 
-  pipeline :redirect_to_index do
-    plug :redirect, to: "/clio"
-  end
-
-  scope "/account", ClioWeb do
-    pipe_through :acc_json
-
-    forward "/", AccountRouter
-  end
-
   scope "/clio", ClioWeb do
-    pipe_through :clio
+    pipe_through :ssr
 
     get "/*any", SsrController, :index
   end
@@ -53,7 +34,9 @@ defmodule ClioWeb.Router do
       context: %{pubsub: ClioWeb.Endpoint}
   end
 
-  scope "/", ClioWeb do
-    match(:*, "/*any" , RedirectController, :redirect_to_index)
-  end
+  # scope "/", ClioWeb do
+  #   pipe_through :ssr
+
+  #   match(:*, "/*any" , RedirectController, :redirect_to_index)
+  # end
 end

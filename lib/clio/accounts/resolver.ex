@@ -14,18 +14,16 @@ defmodule Clio.Accounts.Resolver do
     {:ok, Accounts.list_users()}
   end
 
-  def update_user(_root, %{id: id} = args, _info) do
-    try do
-      id
-      |> Accounts.get_user!()
-      |> Accounts.update_user(args)
-    rescue
-      _ ->
-        {:error, "0xBADDFOOD"}
-    end
-  end
-
   def search_users(_root, %{search_term: search_term} = args, _info) do
     {:ok, Accounts.search_users(search_term)}
+  end
+
+  def login_user(_root, %{email: email, password: _} = args, _info) do
+    try do
+      {:ok, Accounts.get_user_by_email!(email)}
+    rescue
+      _ ->
+        {:error, %{message: "LaLa Land", error_code: 123}}
+    end
   end
 end

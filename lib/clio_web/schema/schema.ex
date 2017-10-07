@@ -26,12 +26,32 @@ defmodule ClioWeb.Schema do
     end
   end
 
+  # TODO|>RED move function away
+
   mutation do
-    field :update_user, :user do
-      arg :id, non_null(:id)
-      arg :is_admin, :boolean
-      arg :is_supervisor, :boolean
-      resolve &Accounts.Resolver.update_user/3
+    field :login, :viewer do
+      arg :email, non_null(:string)
+      arg :password, non_null(:string)
+      resolve &Accounts.Resolver.login_user/3
+      middleware (
+        fn
+          %{value: user, context: %{req_id: id}} = res, _info ->
+            if user, do: ConCache.dirty_update(:request_flow, id, fn _ -> {:ok, user} end)
+            res
+          res, _ ->
+            res
+        end
+      )
     end
+
+    # field :register, :viewer do
+    #   arg :contact_email, non_null(:string)
+    #   arg :contact_number, non_null(:string)
+    #   arg :first_name, non_null(:string)
+    #   arg :last_name, non_null(:string)
+    #   arg :faculty_id, non_null(:id)
+    #   arg :id_number, non_null(:string)
+    #   arg :login_email, non_null(:string)
+    # end
   end
 end
