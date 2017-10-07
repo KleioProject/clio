@@ -61,6 +61,7 @@ export default {
             } else {
                 this.$emit('input', files);
             }
+            event.target.value = '';
         }
     }
 }

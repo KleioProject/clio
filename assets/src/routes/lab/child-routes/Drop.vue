@@ -79,8 +79,9 @@ export default {
     methods: {
         removeFile(fileToRemove) {
             const filteredFiles = this.dropFiles.filter((file) => {
-                return file.name !== fileToRemove.name && file.size !== fileToRemove.size && file.lastModified !== fileToRemove.lastModified;
+                return file.name !== fileToRemove.name && file.size !== fileToRemove.size && (file.lastModified !== fileToRemove.lastModified || file.lastModifiedDate !== fileToRemove.lastModifiedDate);
             });
+            console.log(filteredFiles);
             this.$store.dispatch('setDropFiles', filteredFiles);
         },
         removeContent(data) {

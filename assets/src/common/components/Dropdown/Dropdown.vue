@@ -27,7 +27,8 @@ export default {
             option: -1,
             selected: { id: null, label: '' },
             showOptions: false,
-            timeout: 200
+            timeout: 200,
+            top: 0
         }
     },
     beforeMount: function() {
@@ -64,9 +65,8 @@ export default {
         browseOptions(event) {
             const sel = this.$refs.customSelect;
             const input = this.$refs.inputEl;
-            console.log(event.key);
-            switch (event.key) {
-                case 'ArrowDown':
+            switch (event.keyCode) {
+                case 40:
                     if (this.option === -1) {
                         sel.scrollTop = 0;
                     }
@@ -84,7 +84,7 @@ export default {
                         this.setMarker();
                     }
                     break;
-                case 'ArrowUp':
+                case 38:
                     if (this.options.length > 0) {
                         if (this.option === 0) {
                             this.option = -1;
@@ -112,7 +112,7 @@ export default {
                         this.setMarker();
                     }
                     break;
-                case 'Enter':
+                case 13:
                     if (this.option > -1) {
                         this.$emit('input', this.selected);
                         this.$refs.inputEl.value = this.selected.label;
@@ -144,6 +144,7 @@ export default {
         },
         onClick(index) {
             this.$emit('input', this.options[index]);
+            this.selected = this.options[index];
             this.$refs.inputEl.value = this.selected.label;
             this.showOptions = false;
         },
@@ -154,12 +155,15 @@ export default {
             if (delta !== 0) {
                 this.drag.startY = event.clientY;
                 if (delta < this.markerDiameter && delta > -this.markerDiameter) {
-                    if ((parseInt(marker.style.top) + this.markerDiameter - delta) <= sel.clientHeight && (parseInt(marker.style.top) - delta) >= 0) {
-                        marker.style.top = (parseInt(marker.style.top) - delta) + 'px';
+                    if ((parseInt(this.top) + this.markerDiameter - delta) <= sel.clientHeight && (parseInt(this.top) - delta) >= 0) {
+                        marker.style.top = (parseInt(this.top) - delta) + 'px';
+                        this.top = marker.style.top;
                     } else if (delta < 0) {
                         marker.style.top = (sel.clientHeight - this.markerDiameter) + 'px';
+                        this.top = marker.style.top;
                     } else if (delta > 0) {
                         marker.style.top = 0 + 'px';
+                        this.top = marker.style.top;
                     }
                     this.setScrollTop(delta);
                 }
