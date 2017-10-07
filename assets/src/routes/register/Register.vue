@@ -166,16 +166,21 @@ export default {
         register() {
             this.$$validateAllFields.register();
             if (this.$$isValidForm('register')) {
-                this.$store.dispatch('register', {
-                   /*  agree: this.regAgree, */
-                    email: this.regEmail,
-                    faculty: this.regFaculty.id,
-                    facultyNumber: this.regFacultyNumber,
-                    firstName: this.regFirstName,
-                    lastName: this.regLastName,
-                    password: this.regPassword,
-                    phone: this.regPhone,
-                });
+                const payload = {
+                    registration: {
+                        /*  agree: this.regAgree, */
+                        contactEmail: this.regEmail,
+                        email: this.regEmail,
+                        faculty: this.regFaculty.id,
+                        facultyNumber: this.regFacultyNumber,
+                        firstName: this.regFirstName,
+                        lastName: this.regLastName,
+                        password: this.regPassword,
+                        phone: this.regPhone,
+                    },
+                    router: this.$router
+                }
+                this.$store.dispatch('register', payload);
             }
         }
     }

@@ -82,9 +82,6 @@ export default () => {
             }
         },
         actions: {
-            register( { commit }, payload ) {
-                console.log( payload );
-            },
             setRegAgree( { commit }, regAgree ) {
                 commit( 'setRegAgree', regAgree );
             },

@@ -1,0 +1,26 @@
+mutation Register($contactEmail: String, 
+                  $email: String, 
+                  $faculty: String,
+                  $facultyNumber: String, 
+                  $firstName: String, 
+                  $lastName: String, 
+                  $password: String, 
+                  $phone: String) 
+    {
+        register(contactEmail: $contactEmail, 
+                 email: $email, 
+                 faculty: $faculty, 
+                 facultyNumber: $facultyNumber, 
+                 firstName: $firstName, 
+                 lastName: $lastName, 
+                 password: $password, 
+                 phone: $phone) 
+        {
+            firstName
+            id
+            isActive
+            isAdmin
+            isSupervisor
+            lastName
+        }
+}

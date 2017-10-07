@@ -1,5 +1,9 @@
 export default () => {
     return {
-        faculties: []
+        email: 'user@uni-sofia.bg',
+        faculties: [],
+        password: 'useruser',
+        token: '',
+        user: null
     };
 };

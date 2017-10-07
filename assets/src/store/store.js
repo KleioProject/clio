@@ -6,7 +6,6 @@ import createGetters from './getters';
 import createMutations from './mutations';
 import createActions from './actions';
 import createLabModule from './modules/lab-module';
-import createLoginModule from './modules/login-module';
 import createMessageModule from './modules/message-module';
 import createPopupModule from './modules/popup-module';
 import createRegisterModule from './modules/register-module';
@@ -21,7 +20,6 @@ function createStore() {
         actions: createActions(),
         modules: {
             labModule: createLabModule(),
-            loginModule: createLoginModule(),
             messageModule: createMessageModule(),
             popupModule: createPopupModule(),
             registerModule: createRegisterModule()
