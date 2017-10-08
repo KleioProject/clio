@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <style type="text/css" media="all">
+            #one {
+                position: relative;
+                width: 400px;
+                height: 400px;
+                background-color: blue;
+                transition: all 250ms ease-out;
+            }
+
+            #two {
+                position: absolute;
+                right: 0;
+                width: 40px;
+                height: 40px;
+                background-color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="one">
+            <div id="two"></div>
+        </div>
+
+
+        <script type="text/javascript" charset="utf-8">
+            let moving = false;
+            const one = document.getElementById( 'one' );
+            const two = document.getElementById( 'two' );
+            let t = null;
+            function changeMoving( event, flag ) {
+                event.preventDefault();
+                event.stopPropagation();
+                moving = flag;
+            }
+
+            two.addEventListener( 'mousedown', function ( event ) {
+                event.preventDefault();
+                event.stopPropagation();
+                moving = true;
+            } );
+
+            document.addEventListener( 'mousemove', function ( event ) {
+                if ( moving ) {
+                    if ( !t ) {
+                        t = setTimeout( function () {
+                            const max = one.clientHeight - two.clientHeight;
+                            let y = event.pageY - one.offsetTop;
+                            y = y <= 0 ? 0 : y;
+                            y = y >= max ? max : y;
+                            two.style.transform = `translate3d(0px,${ y }px, 0px)`;
+                            t = null;
+                            console.log( two.style.transform3d );
+                        }, 30 );
+                    }
+                }
+            } );
+            document.addEventListener( 'mouseup', function ( event ) {
+                event.preventDefault();
+                event.stopPropagation();
+                moving = false;
+            } );
+
+            document.addEventListener( 'mouseleave', function ( event ) {
+                event.preventDefault();
+                event.stopPropagation();
+                moving = false;
+            } );
+
+        </script>
+    </body>
+
+</html>

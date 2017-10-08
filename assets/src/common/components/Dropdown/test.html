@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <style type="text/css" media="all">
+            #one {
+                position: relative;
+                width: 400px;
+                height: 400px;
+                background-color: blue;
+            }
+
+            #two {
+                position: absolute;
+                right: 0;
+                width: 40px;
+                height: 40px;
+                background-color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="one">
+            <div id="two"></div>
+        </div>
+
+
+        <script type="text/javascript" charset="utf-8">
+            let moving = false;
+            const one = document.getElementById( 'one' );
+            const two = document.getElementById( 'two' );
+
+            two.addEventListener( 'mousedown', function ( event ) {
+                moving = true;
+            } );
+
+            document.addEventListener( 'mousemove', function ( event ) {
+                if ( moving ) {
+                    const borderMin = one.offsetTop;
+                    const borderMax = one.offsetTop + one.clientHeight;
+                    let delta = 0
+                    if ( event.pageY >= borderMax ) {
+                        delta = 360;
+                    } else if ( event.pageY > borderMin ) {
+                        delta = event.pageY - borderMin;
+                        if ( delta >= 360 ) {
+                            delta = 360;
+                        }
+                    }
+                    two.style.transform = `translateY(${ delta }px)`;
+                }
+            } );
+
+            document.addEventListener( 'mouseup', function ( event ) {
+                moving = false;
+            } );
+        </script>
+    </body>
+
+</html>
