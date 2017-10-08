@@ -36,14 +36,12 @@ defmodule ClioWeb.Context do
       nil ->
         conn
       user ->
-        conn
-        |> put_resp_cookie("user", encode_user(user), max_age: @cookie_ttl)
+        put_resp_cookie(conn, "user", encode_user(user), max_age: @cookie_ttl)
     end
   end
 
   defp encode_user(user) do
     user
-    |> Map.take([:id, :is_supervisor, :is_admin, :is_active, :first_name, :last_name])
     |> :erlang.term_to_binary()
     |> Base.encode64
   end

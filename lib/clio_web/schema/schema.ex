@@ -3,8 +3,8 @@ defmodule ClioWeb.Schema do
   import_types ClioWeb.Schema.Types
   import_types Absinthe.Type.Custom
 
-  alias Clio.{Accounts,
-              Administrative}
+  alias Clio.{Accounts, Administrative}
+  alias ClioWeb.Schema.UserAuthenticated
 
   query do
     field :faculties, list_of(:faculty) do
@@ -13,6 +13,7 @@ defmodule ClioWeb.Schema do
 
     field :user, :user do
       arg :id, non_null(:id)
+
       resolve &Accounts.Resolver.user/3
     end
 
@@ -22,27 +23,19 @@ defmodule ClioWeb.Schema do
 
     field :search_users, list_of(:user) do
       arg :search_term, non_null(:string)
+
       resolve &Accounts.Resolver.search_users/3
     end
   end
-
-  # TODO|>RED move function away
 
   mutation do
     field :login, :viewer do
       arg :email, non_null(:string)
       arg :password, non_null(:string)
+
       resolve &Accounts.Resolver.login_user/3
 
-      middleware (
-        fn
-          %{value: user, context: %{req_id: id}} = res, _info ->
-            if user, do: ConCache.dirty_update(:request_flow, id, fn _ -> {:ok, user} end)
-            res
-          res, _ ->
-            res
-        end
-      )
+      middleware UserAuthenticated
     end
 
     field :register, :viewer do
@@ -54,17 +47,10 @@ defmodule ClioWeb.Schema do
       arg :id_number, non_null(:string)
       arg :login_email, non_null(:string)
       arg :password, non_null(:string)
+
       resolve &Accounts.Resolver.register_user/3
 
-      middleware (
-        fn
-          %{value: user, context: %{req_id: id}} = res, _info ->
-            if user, do: ConCache.dirty_update(:request_flow, id, fn _ -> {:ok, user} end)
-            res
-          res, _ ->
-            res
-        end
-      )
+      middleware UserAuthenticated
     end
   end
 end
