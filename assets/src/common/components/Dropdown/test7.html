@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <style type="text/css" media="all">
+            .item-container {
+                height: 400px;
+            }
+
+            .item {
+                display: block;
+                height: 80px;
+                width: 100%;
+                margin-bottom: 10px;
+                background-color: orange;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="scroll">
+            <div class="item-container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" charset="utf-8">
+            // Variables:
+            let moving = false;
+            let t = null;
+            let compensation = 0;
+
+            const wrapper = document.getElementById( 'scroll' );
+            wrapper.style.position = 'relative';
+            wrapper.style.overflow = 'hidden';
+            wrapper.className = wrapper.className ? wrapper.className + ' mp-scroller-container' : 'mp-scroller-container';
+
+            const scr = createScroller( wrapper );
+
+            const container = wrapper.lastElementChild;
+            container.style.width = 'calc(100% + 16px)';
+            container.style.overflowY = 'scroll';
+            container.className = container.className ? container.className + ' mp-content-container' : 'mp-content-container';
+
+
+            // Functions:
+            function createScroller( parent ) {
+                const scroller = document.createElement( 'div' );
+                scroller.style.position = 'absolute';
+                scroller.style.right = '2px';
+                scroller.style.width = '10px';
+                scroller.style.height = '40px';
+                scroller.style.opacity = '0.6';
+                scroller.style.backgroundColor = 'red';
+                scroller.style.borderRadius = '10px';
+                scroller.style.cursor = 'pointer';
+                scroller.className = 'mp-scroller';
+                parent.insertBefore( scroller, parent.firstChild );
+                return scroller;
+            };
+
+            function startMovingScroller( event ) {
+                event.preventDefault();
+                event.stopPropagation();
+                const scrollerOffset = scr.style.transform ? Math.floor( parseFloat( scr.style.transform.split( ',' )[ 1 ] ) ) : 0;
+                compensation = event.pageY - scrollerOffset - wrapper.offsetTop;
+                moving = true;
+            };
+
+            function stopMovingScroller( event ) {
+                event.preventDefault();
+                event.stopPropagation();
+                moving = false;
+            };
+
+            function setContentScroll( y ) {
+                const st = container.scrollTop;
+                const oh = container.offsetHeight;
+                const sh = container.scrollHeight;
+                const scrollerH = scr.offsetHeight;
+                const top = ( ( oh - scrollerH ) / ( sh - oh ) ) * st;
+                container.scrollTop = ( ( sh - oh ) / ( oh - scrollerH ) ) * y;
+            };
+
+            function setScrollerTranslate() {
+                const st = container.scrollTop;
+                const oh = container.offsetHeight;
+                const sh = container.scrollHeight;
+                const scrollerH = scr.offsetHeight;
+                const top = ( ( oh - scrollerH ) / ( sh - oh ) ) * st;
+                scr.style.transform = `translate3d(0px,${ top }px, 0px)`;
+            };
+
+            function moveScroller( event ) {
+                if ( moving ) {
+                    if ( !t ) {
+                        t = setTimeout( function () {
+                            const max = wrapper.clientHeight - scr.clientHeight;
+                            let y = event.pageY - wrapper.offsetTop - compensation;
+                            y = y <= 0 ? 0 : y;
+                            y = y >= max ? max : y;
+                            scr.style.transform = `translate3d(0px,${ y }px, 0px)`;
+                            setContentScroll( y );
+                            t = null;
+                        }, 30 );
+                    }
+                }
+            };
+
+            function setScrollerHeight() {
+                const oh = container.offsetHeight;
+                const sh = container.scrollHeight;
+                const h = Math.floor( Math.pow( oh, 2 ) / sh );
+                scr.style.height = `${ h }px`;
+                if ( sh <= oh ) {
+                    scr.style.display = 'none';
+                } else {
+                    scr.style.display = 'block';
+                }
+            };
+
+            setScrollerHeight();
+
+            // Event listeners:
+            scr.addEventListener( 'mousedown', startMovingScroller );
+            container.addEventListener( 'scroll', setScrollerTranslate );
+            document.addEventListener( 'mousemove', moveScroller );
+            document.addEventListener( 'mouseup', stopMovingScroller );
+            document.addEventListener( 'mouseleave', stopMovingScroller );
+
+            const observer = new MutationObserver( function ( mutations ) {
+                setScrollerHeight();
+            } );
+            const config = { attributes: true, childList: true, characterData: true };
+            observer.observe( container, config );
+            //observer.disconnect();
+
+        </script>
+    </body>
+
+</html>

@@ -2,6 +2,19 @@
     <div class="lab-apollo-page">
         <h2>Fetching with Apollo</h2>
         <p>{{faculties}}</p>
+        <h2>Custom Scroller</h2>
+        <div v-scroller class="col-xs-6">
+            <div class="item-container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
     </div>
 </template>
 
