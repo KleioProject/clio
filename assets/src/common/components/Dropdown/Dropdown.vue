@@ -1,13 +1,12 @@
 <template>
     <div class="dropdown-component">
         <div class="dropdown-input-container">
-            <input class="dropdown-input" type="text" @input="filterOptions" :placeholder="placeholder" ref="inputEl" @keydown="browseOptions" @focus="openOptions">
-            <ul class="dropdown-options-container" :class="{'dropdown-options-open': showOptions}" @scroll="onScroll" ref="customSelect" v-if="options.length > 0" @mouseleave="onSelectMouseleave()">
-                <li class="dropdown-option" @mouseenter="onMouseenter(index)" @mouseleave="onMouseleave()" @click="onClick(index)" :class="{'selected': opt.id === selected.id}" v-for="(opt, index) in options" :key="opt.id">{{opt.label}}</li>
-            </ul>
-            <div class="scroller" v-if="options.length > 0" :class="{'dropdown-scroller-open': showOptions}">
-                <div class="marker-container">
-                    <div class="marker" :class="{'dropdown-marker-shown': showOptions}" ref="marker" draggable="draggable" @dragstart="onMarkerDragstart" @drag="onMarkerDrag" @dragend="onMarkerDragend"></div>
+            <input class="dropdown-input" type="text" @input="filterOptions" :placeholder="placeholder" ref="inputEl" @keydown="browseOptions" @click="openOptions">
+            <div class="dropdown-options-container" :class="{'dropdown-options-open': showOptions}">
+                <div v-scroller>
+                    <ul ref="customSelect" v-if="options.length > 0" @mouseleave="onSelectMouseleave()">
+                        <li class="dropdown-option" @mouseenter="onMouseenter(index)" @click="onClick(index)" :class="{'selected': opt.id === selected.id}" v-for="(opt, index) in options" :key="opt.id">{{opt.label}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -16,19 +15,14 @@
 
 <script>
 export default {
-    props: ['value', 'opts', 'placeholder', 'markerDiameter'],
+    props: ['value', 'opts', 'placeholder'],
     data: function() {
         return {
-            drag: {
-                startY: null,
-                pauseOnScroll: false
-            },
             filter: '',
             option: -1,
             selected: { id: null, label: '' },
             showOptions: false,
-            timeout: 200,
-            top: 0
+            timeout: 200
         }
     },
     beforeMount: function() {
@@ -81,7 +75,6 @@ export default {
                         if (this.option >= this.getNumberOfOptionsToFit() && this.option < this.options.length) {
                             sel.scrollTop += sel.children[this.option].clientHeight;
                         }
-                        this.setMarker();
                     }
                     break;
                 case 38:
@@ -109,7 +102,6 @@ export default {
                         } else {
                             sel.scrollTop = 0;
                         }
-                        this.setMarker();
                     }
                     break;
                 case 13:
@@ -148,49 +140,9 @@ export default {
             this.$refs.inputEl.value = this.selected.label;
             this.showOptions = false;
         },
-        onMarkerDrag(event) {
-            const sel = this.$refs.customSelect;
-            const marker = this.$refs.marker;
-            const delta = this.drag.startY - event.clientY;
-            if (delta !== 0) {
-                this.drag.startY = event.clientY;
-                if (delta < this.markerDiameter && delta > -this.markerDiameter) {
-                    if ((parseInt(this.top) + this.markerDiameter - delta) <= sel.clientHeight && (parseInt(this.top) - delta) >= 0) {
-                        marker.style.top = (parseInt(this.top) - delta) + 'px';
-                        this.top = marker.style.top;
-                    } else if (delta < 0) {
-                        marker.style.top = (sel.clientHeight - this.markerDiameter) + 'px';
-                        this.top = marker.style.top;
-                    } else if (delta > 0) {
-                        marker.style.top = 0 + 'px';
-                        this.top = marker.style.top;
-                    }
-                    this.setScrollTop(delta);
-                }
-            }
-        },
-        onMarkerDragend(event) {
-            this.drag.pauseOnScroll = false;
-        },
-        onMarkerDragstart(event) {
-            if (isBrowser) {
-                if (typeof event.dataTransfer.setDragImage === 'function') {
-                    const ghost = this.$refs.marker.cloneNode(true);
-                    ghost.style.display = 'none';
-                    document.body.appendChild(ghost);
-                    event.dataTransfer.setDragImage(ghost, 0, 0);
-                    this.drag.startY = event.clientY;
-                    this.drag.pauseOnScroll = true;
-                }
-            }
-        },
         onMouseenter(index) {
             this.selected = this.options[index];
             this.option = index;
-            this.setMarker();
-        },
-        onMouseleave() {
-            this.setMarker();
         },
         onSelectMouseleave() {
             this.selected = this.value;
@@ -202,24 +154,8 @@ export default {
             }
             this.option = index;
         },
-        onScroll(event) {
-            if (!this.drag.pauseOnScroll) {
-                this.setMarker();
-            }
-        },
         openOptions() {
             this.showOptions = true;
-        },
-        setMarker() {
-            const sel = this.$refs.customSelect;
-            const offset = (sel.scrollTop / (sel.scrollHeight - sel.clientHeight)) * (sel.clientHeight - this.markerDiameter);
-            this.$refs.marker.style.top = `${offset}px`;
-        },
-        setScrollTop(delta) {
-            const sel = this.$refs.customSelect;
-            const marker = this.$refs.marker;
-            const offset = Math.floor(((parseInt(marker.style.top) + (delta >= 0 && parseInt(marker.style.top) === 0 ? 0 : this.markerDiameter)) / sel.clientHeight) * (sel.scrollHeight - sel.clientHeight));
-            sel.scrollTop = offset;
         }
     }
 }
