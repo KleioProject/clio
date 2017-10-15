@@ -1,5 +1,7 @@
 <template>
     <div id="root">
+        <div v-scroller>
+        <div id='main-content-wrapper' style="height: 100vh;">
         <navbar></navbar>
         <transition name="slide-routes" mode="out-in">
             <router-view></router-view>
@@ -10,6 +12,8 @@
         <transition name="message" mode="in-out">
             <messages v-if="messages.length > 0"></messages>
         </transition>
+        </div>
+            </div>
     </div>
 </template>
 

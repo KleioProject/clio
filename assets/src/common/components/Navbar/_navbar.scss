@@ -1,5 +1,6 @@
 .navbar-component {
     z-index: 10;
+    margin-right: -3rem;
     background-color: $bkg-dark;
     li a:hover {
         color: $link-active;
@@ -13,8 +14,10 @@
     .link-item {
         position: relative;
         vertical-align: middle;
-        padding: 1rem 0.5rem;
-        cursor: pointer;
+        a {
+            padding: 1rem 0.5rem;
+            cursor: pointer;
+        }
     }
     .sub-nav-label {
         display: block;
@@ -37,21 +40,27 @@
         }
         .link-item {
             display: block;
-            padding: 1rem 0;
+            a {
+                display: inline-block;
+                width: 100%;
+            }
         }
     }
     .responsive-nav-header {
         display: none;
         height: 4rem;
+        margin-right: 0;
         color: white;
         background-color: $bkg-dark;
         .nav-toggle {
             float: right;
+            margin-right: 3rem;
             padding: 1rem;
             cursor: pointer;
         }
     }
     @media (max-width: 1024px) {
+        position: relative;
         .nav-block {
             position: absolute;
             top: 4rem;

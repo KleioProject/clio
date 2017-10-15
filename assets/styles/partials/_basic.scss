@@ -11,7 +11,27 @@ body {
 }
 
 body {
-    min-height: calc(100vh + 6rem);
+    /*   min-height: calc(100vh + 6rem); */
+}
+
+#main-content-wrapper {
+    box-sizing: content-box !important;
+    width: 100% !important;
+    padding-right: 3rem;
+}
+
+.scr-scroller {
+    box-sizing: content-box !important;
+    right: 4px !important;
+    width: 6px !important;
+    &:hover {
+        right: 2px !important;
+        border: 2px solid $link-active;
+    }
+    &.scr-moving {
+        right: 2px !important;
+        border: 2px solid $link-active;
+    }
 }
 
 div,

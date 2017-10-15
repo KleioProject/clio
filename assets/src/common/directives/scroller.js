@@ -4,10 +4,11 @@ function createScroller( parent ) {
     const scroller = document.createElement( 'div' );
     scroller.style.position = 'absolute';
     scroller.style.right = '2px';
+    scroller.style.zIndex = 100;
     scroller.style.width = '10px';
     scroller.style.height = '40px';
     scroller.style.opacity = '0.6';
-    scroller.style.backgroundColor = 'red';
+    scroller.style.backgroundColor = '#1cb6e2';
     scroller.style.borderRadius = '10px';
     scroller.style.cursor = 'pointer';
     scroller.className = 'scr-scroller';
@@ -60,18 +61,20 @@ function setScrollerTranslate( event ) {
     event.target.parentElement.firstElementChild.style.transform = `translate3d(0px,${ parseInt( top ) }px, 0px)`;
 };
 
-function startMovingScroller( config, event ) {
+function startMovingScroller(el, config, event ) {
     event.preventDefault();
     event.stopPropagation();
+    el.firstElementChild.className = 'scr-scroller scr-moving';
     const scrollerOffset = event.target.style.transform ? Math.floor( parseFloat( event.target.style.transform.split( ',' )[ 1 ] ) ) : 0;
     config.compensation = event.pageY - scrollerOffset - event.target.parentElement.offsetTop;
     config.moving = true;
 };
 
-function stopMovingScroller( config, event ) {
+function stopMovingScroller(el, config, event ) {
     event.preventDefault();
     event.stopPropagation();
     config.moving = false;
+    el.firstElementChild.className = 'scr-scroller';
 };
 
 function initScroller( el, oldScr ) {
@@ -98,10 +101,10 @@ function initScroller( el, oldScr ) {
     el.lastElementChild.className = el.lastElementChild.className.indexOf( 'scr-content-container' ) > -1 ? el.lastElementChild.className : ( el.lastElementChild.className + ' scr-content-container' ).trim();
 
     el.startMovingScrollerHandler = function ( event ) {
-        startMovingScroller( config, event );
+        startMovingScroller(el, config, event );
     };
     el.stopMovingScrollerHandler = function ( event ) {
-        stopMovingScroller( config, event );
+        stopMovingScroller(el, config, event );
     };
     el.moveScrollerHandler = function ( event ) {
         moveScroller( el, config, event );
@@ -112,16 +115,24 @@ function initScroller( el, oldScr ) {
     el.mutationObserverHandler = function ( mutations ) {
         setScrollerHeight( el );
     };
+    el.setScrollerHeightHandler = function ( event ) {
+        setScrollerHeight( el );
+    }
 
     const observerConfig = { childList: true };
+    const observerConfigExtra = {
+        childList: true,
+        subtree: true
+    }
     el.observer = new MutationObserver( el.mutationObserverHandler );
-    el.observer.observe( el.lastElementChild, observerConfig );
+    el.observer.observe( el.lastElementChild, observerConfigExtra );
 
     el.firstElementChild.addEventListener( 'mousedown', el.startMovingScrollerHandler );
     el.lastElementChild.addEventListener( 'scroll', el.setScrollerTranslateHandler );
     document.addEventListener( 'mousemove', el.moveScrollerHandler );
     document.addEventListener( 'mouseup', el.stopMovingScrollerHandler );
     document.addEventListener( 'mouseleave', el.stopMovingScrollerHandler );
+    window.addEventListener( 'resize', el.setScrollerHeightHandler );
 
     if ( !el.observerSelf ) {
         el.observerSelf = new MutationObserver( function ( mutations ) {
@@ -165,10 +176,12 @@ function clearListeners( el, container ) {
     document.removeEventListener( 'mousemove', el.moveScrollerHandler );
     document.removeEventListener( 'mouseup', el.stopMovingScrollerHandler );
     document.removeEventListener( 'mouseleave', el.stopMovingScrollerHandler );
+    window.removeEventListener( 'resize', el.setScrollerHeightHandler );
     el.startMovingScrollerHandler = null;
     el.stopMovingScrollerHandler = null;
     el.moveScrollerHandler = null;
     el.setScrollerTranslateHandler = null;
+    el.setScrollerHeightHandler = null;
 };
 
 Vue.directive( 'scroller', {
